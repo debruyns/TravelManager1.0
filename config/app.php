@@ -11,10 +11,10 @@ return [
 
   'db' => [
     'driver' => 'mysql',
-    'host' => 'localhost',
+    'host' => 'dev.citytakeoff.com',
     'database' => 'travelmanager',
-    'username' => 'root',
-    'password' => '',
+    'username' => 'travelmanager',
+    'password' => 'ctoTM2018@#',
     'charset' => 'utf8',
     'collation' => 'utf8_general_ci',
     'prefix' => '',

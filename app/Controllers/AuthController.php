@@ -77,4 +77,38 @@ class AuthController extends Controller {
     return $response->withRedirect($this->router->pathFor('auth.signin'));
   }
 
+  // HTTP GET Recovery
+  public function getRecovery($request, $response) {
+
+    $viewData = [
+      'page' => [
+        'title' => $this->translator->trans('auth.recovery.pageTitle')
+      ]
+    ];
+
+    return $this->view->render($response, 'auth/recovery.twig', $viewData);
+
+  }
+
+  // HTTP POST Recovery
+  public function postRecovery($request, $response) {
+    $this->AuthHelper->userRecovery($request, $this);
+    return $response->withRedirect($this->router->pathFor('auth.recovery'));
+  }
+
+  // HTTP GET Reset
+  public function getReset($request, $response, $args) {
+
+    $this->AuthHelper->checkReset($args['code'], $this);
+
+    $viewData = [
+      'page' => [
+        'title' => $this->translator->trans('auth.reset.pageTitle')
+      ]
+    ];
+
+    return $this->view->render($response, 'auth/reset.twig', $viewData);
+
+  }
+
 }

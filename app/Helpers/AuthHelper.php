@@ -3,7 +3,9 @@
 namespace App\Helpers;
 
 use App\Models\User;
+use App\Models\Recovery;
 use App\Middleware\AuthenticatorMiddleware;
+use DateTime;
 
 class AuthHelper {
 
@@ -21,6 +23,98 @@ class AuthHelper {
 
   public function checkTwoFactor() {
     return isset($_SESSION['user_twofactor']);
+  }
+
+  public function checkReset($code, $container) {
+    $recovery = Recovery::where('code', $code)->first();
+    if ($recovery) {
+      $now = new DateTime(Date('Y-m-d H:i:s'));
+      $created = new DateTime($recovery->created_at);
+      $interval = $now->getTimestamp() - $created->getTimestamp();
+      if ($interval > 86400) {
+        $container->flash->addMessage('error', $container->translator->trans('auth.reset.expired'));
+      }
+    } else {
+      $container->flash->addMessage('error', $container->translator->trans('auth.reset.invalid'));
+    }
+  }
+
+  public function userRecovery($request, $container) {
+
+    $email = trim($request->getParam('email'));
+    $timeConstraint = false;
+
+    if (!empty($email)) {
+
+      $user = User::where('email', $email)->first();
+      if ($user) {
+
+        $lastRecovery = Recovery::where('user', $user->id)->orderBy('created_at', 'DESC')->first();
+
+        if ($lastRecovery) {
+
+          $now = new DateTime(Date('Y-m-d H:i:s'));
+          $created = new DateTime($lastRecovery->created_at);
+          $interval = $now->getTimestamp() - $created->getTimestamp();
+
+          if ($interval > 300) {
+            $timeConstraint = true;
+          }
+
+        } else {
+          $timeConstraint = true;
+        }
+
+        if ($timeConstraint === true) {
+
+          if ($user->active == 'true') {
+
+            if ($user->status == 'normal') {
+
+              $unique = false;
+              $code = null;
+              while ($unique === false) {
+                $code = $this->generateRandomString();
+                $checkUnique = Recovery::where('code', $code)->first();
+                if (!$checkUnique) {
+                  $unique = true;
+                }
+              }
+
+              $newRecovery = Recovery::create([
+                'code' => $code,
+                'user' => $user->id
+              ]);
+
+              if ($newRecovery) {
+                $container->flash->addMessage('success-heading', $container->translator->trans('auth.recovery.successHeading'));
+                $container->flash->addMessage('success', $container->translator->trans('auth.recovery.successMessage', [
+                  '%email%' => $user->email
+                ]));
+              } else {
+                $container->flash->addMessage('error', $container->translator->trans('auth.validation.error'));
+              }
+
+            } else {
+              $container->flash->addMessage('error', $container->translator->trans('auth.validation.wrongStatus'));
+            }
+
+          } else {
+            $container->flash->addMessage('error', $container->translator->trans('auth.validation.notActive'));
+          }
+
+        } else {
+          $container->flash->addMessage('error', $container->translator->trans('auth.validation.recoveryTime'));
+        }
+
+      } else {
+        $container->flash->addMessage('error_email', $container->translator->trans('auth.validation.emailUnknown'));
+      }
+
+    } else {
+      $container->flash->addMessage('error_email', $container->translator->trans('auth.validation.required'));
+    }
+
   }
 
   public function userVerify($request, $container) {
@@ -151,6 +245,16 @@ class AuthHelper {
       'twofactor' => $return_twofactor
     ];
 
+  }
+
+  private function generateRandomString($length = 20) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
   }
 
 }

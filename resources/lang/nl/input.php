@@ -8,7 +8,8 @@ return [
 
       'email' => 'E-mailadres',
       'password' => 'Wachtwoord',
-      'code'  => 'Code'
+      'code'  => 'Code',
+      'confirm' => 'Bevestig wachtwoord'
 
     ],
 
@@ -22,7 +23,9 @@ return [
 
       'signin' => 'Inloggen',
       'verify'  => 'Controleren',
-      'cancel'  => 'Annuleren'
+      'cancel'  => 'Annuleren',
+      'recover' => 'Ophalen',
+      'save' => 'Opslaan'
 
     ]
 

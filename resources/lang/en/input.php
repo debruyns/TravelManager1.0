@@ -8,7 +8,8 @@ return [
 
       'email' => 'Email address',
       'password' => 'Password',
-      'code'  => 'Code'
+      'code'  => 'Code',
+      'confirm' => 'Confirm password'
 
     ],
 
@@ -22,7 +23,9 @@ return [
 
       'signin' => 'Sign In',
       'verify'  => 'Verify',
-      'cancel'  => 'Cancel'
+      'cancel'  => 'Cancel',
+      'recover' => 'Recover',
+      'save' => 'Save'
 
     ]
 

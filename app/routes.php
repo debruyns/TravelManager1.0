@@ -15,7 +15,12 @@ $app->group('', function() {
   $this->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
 
   // Recovery Routes
-  $this->get('/auth/recovery', 'AuthController:getLogin')->setName('auth.recovery');
+  $this->get('/auth/recovery', 'AuthController:getRecovery')->setName('auth.recovery');
+  $this->post('/auth/recovery', 'AuthController:postRecovery');
+
+  // Reset Routes
+  $this->get('/auth/reset/{code}', 'AuthController:getReset')->setName('auth.reset');
+  $this->post('/auth/reset', 'AuthController:postReset')->setName('auth.reset.post');
 
 })->add(new GuestRouteMiddleware($container));
 

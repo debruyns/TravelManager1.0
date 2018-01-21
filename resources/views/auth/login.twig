@@ -24,6 +24,10 @@
 
   <button class="btn btn-md btn-primary btn-block" type="submit">{{ trans('input.button.signin') }}</button>
 
+  <div class="text-center mt-4">
+    <a href="{{ path_for('auth.recovery') }}">{{ trans('auth.signin.forgot') }}</a>
+  </div>
+
   {{ csrf.fields | raw }}
 
 </form>

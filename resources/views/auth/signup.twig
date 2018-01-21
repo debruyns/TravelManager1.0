@@ -1,0 +1,18 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<form class="form-auth">
+
+  <h1 class="h3 mb-3 font-weight-normal">TravelManager Sign Up</h1>
+
+  <input type="text" id="inputFirstname" class="form-control f-no-border" placeholder="Firstname">
+  <input type="text" id="inputLastname" class="form-control f-no-border" placeholder="Lastname">
+  <input type="text" id="inputEmail" class="form-control f-no-border" placeholder="Email address">
+  <input type="password" id="inputPassword" class="form-control f-no-border" placeholder="Password">
+
+  <button class="btn btn-md btn-primary btn-block" type="submit">Sign Up</button>
+
+</form>
+
+{% endblock %}

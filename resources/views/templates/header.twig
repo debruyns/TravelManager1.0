@@ -1,0 +1,37 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <a class="navbar-brand ml-2" href="{{ path_for('home') }}">
+    <img src="/images/logo.png" height="30" width="auto" class="d-inline-block align-top" alt="">
+  </a>
+
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto mr-2">
+      {% if session.check %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('home') }}">{{ session.user.firstname }} {{ session.user.lastname }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('home') }}">{{ trans('nav.auth.trips') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('home') }}">{{ trans('nav.auth.messages') }} <span class="badge badge-danger">9</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('home') }}">{{ trans('nav.auth.help') }}</a>
+        </li>
+      {% elseif not session.twofactor %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('home') }}">{{ trans('nav.guest.home') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('auth.signin') }}">{{ trans('nav.guest.signin') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path_for('auth.signup') }}">{{ trans('nav.guest.signup') }}</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+</nav>

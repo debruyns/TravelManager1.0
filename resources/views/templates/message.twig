@@ -1,0 +1,51 @@
+{% if flash.getMessage('error') %}
+
+<div class="alert alert-danger">
+  {% if flash.getMessage('error-heading') %}
+    <h4 class="alert-heading">{{ flash.getMessage('error-heading') | first }}</h4>
+    <p>{{ flash.getMessage('error') | first }}</p>
+  {% else %}
+    {{ flash.getMessage('error') | first | raw }}
+  {% endif %}
+</div>
+
+{% endif %}
+
+{% if flash.getMessage('info') %}
+
+<div class="alert alert-info">
+  {% if flash.getMessage('info-heading') %}
+    <h4 class="alert-heading">{{ flash.getMessage('info-heading') | first }}</h4>
+    <p>{{ flash.getMessage('info') | first }}</p>
+  {% else %}
+    {{ flash.getMessage('info') | first | raw }}
+  {% endif %}
+</div>
+
+{% endif %}
+
+{% if flash.getMessage('warning') %}
+
+<div class="alert alert-warning">
+  {% if flash.getMessage('warning-heading') %}
+    <h4 class="alert-heading">{{ flash.getMessage('warning-heading') | first }}</h4>
+    <p>{{ flash.getMessage('warning') | first }}</p>
+  {% else %}
+    {{ flash.getMessage('warning') | first | raw }}
+  {% endif %}
+</div>
+
+{% endif %}
+
+{% if flash.getMessage('success') %}
+
+<div class="alert alert-success">
+  {% if flash.getMessage('success-heading') %}
+    <h4 class="alert-heading">{{ flash.getMessage('success-heading') | first }}</h4>
+    <p>{{ flash.getMessage('success') | first }}</p>
+  {% else %}
+    {{ flash.getMessage('success') | first | raw }}
+  {% endif %}
+</div>
+
+{% endif %}

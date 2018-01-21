@@ -1,0 +1,23 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<form class="form-auth" method="post" action="{{ path_for('auth.verify') }}" autocomplete="off">
+
+  <h1 class="h3 mb-3 font-weight-normal">{{ trans('auth.verify.header') }}</h1>
+
+  <div class="form-group">
+    <input type="text" name="code" maxlength="6" class="form-control f-no-border {{ flash.getMessage('error_code') ? ' is-invalid' : '' }}" placeholder="{{ trans('input.label.code') }}">
+    {% if flash.getMessage('error_code') %}
+      <small class="text-danger">{{ flash.getMessage('error_code') | first }}</small>
+    {% endif %}
+  </div>
+
+  <button class="btn btn-md btn-primary btn-block" type="submit">{{ trans('input.button.verify') }}</button>
+  <a href="{{ path_for('auth.cancel') }}" class="btn btn-md btn-danger btn-block">{{ trans('input.button.cancel') }}</a>
+
+  {{ csrf.fields | raw }}
+
+</form>
+
+{% endblock %}

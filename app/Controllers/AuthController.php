@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use Slim\Views\Twig as View;
+use App\Models\User;
+use App\Mail
 
 class AuthController extends Controller {
 
@@ -14,6 +16,11 @@ class AuthController extends Controller {
         'title' => $this->translator->trans('auth.signin.pageTitle')
       ]
     ];
+
+    $user = User::find(1);
+    if ($user) {
+      $this->mail->to($user->email, $user->firstname)->send(new Welcome($user));
+    }
 
     return $this->view->render($response, 'auth/login.twig', $viewData);
 
@@ -99,12 +106,13 @@ class AuthController extends Controller {
   // HTTP GET Reset
   public function getReset($request, $response, $args) {
 
-    $this->AuthHelper->checkReset($args['code'], $this);
+    $result = $this->AuthHelper->checkReset($args['code'], $this);
 
     $viewData = [
       'page' => [
         'title' => $this->translator->trans('auth.reset.pageTitle')
-      ]
+      ],
+      'checkResult' => $result
     ];
 
     return $this->view->render($response, 'auth/reset.twig', $viewData);

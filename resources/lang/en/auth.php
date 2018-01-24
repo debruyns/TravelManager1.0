@@ -34,8 +34,7 @@ return [
 
       'pageTitle' => 'Reset Password',
       'header' => 'Choose a new password',
-      'invalid' => 'The provided reset code is invalid',
-      'expired' => 'The provided reset code is expired'
+      'invalid' => 'The provided reset code is invalid/expired',
 
     ],
 

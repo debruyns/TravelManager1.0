@@ -32,11 +32,12 @@ class AuthHelper {
       $created = new DateTime($recovery->created_at);
       $interval = $now->getTimestamp() - $created->getTimestamp();
       if ($interval > 86400) {
-        $container->flash->addMessage('error', $container->translator->trans('auth.reset.expired'));
+        return false;
       }
     } else {
-      $container->flash->addMessage('error', $container->translator->trans('auth.reset.invalid'));
+      return false;
     }
+    return true;
   }
 
   public function userRecovery($request, $container) {

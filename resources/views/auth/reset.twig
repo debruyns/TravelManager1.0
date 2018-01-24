@@ -6,7 +6,7 @@
 
   {% include 'templates/message.twig' %}
 
-  {% if not flash.getMessage('error') %}
+  {% if checkResult %}
 
     <h1 class="h3 mb-3 font-weight-normal">{{ trans('auth.reset.header') }}</h1>
 
@@ -27,6 +27,12 @@
     <button class="btn btn-md btn-primary btn-block" type="submit">{{ trans('input.button.save') }}</button>
 
     {{ csrf.fields | raw }}
+
+  {% else %}
+
+  <div class="alert alert-danger">
+    {{ trans('auth.reset.invalid') }}
+  </div>
 
   {% endif %}
 

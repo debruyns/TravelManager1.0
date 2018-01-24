@@ -18,6 +18,18 @@ return [
     'charset' => 'utf8',
     'collation' => 'utf8_general_ci',
     'prefix' => '',
+  ],
+
+  'mail' => [
+    'host' => 'smtp.mailtrap.io',
+    'port' => '25',
+    'from' => [
+      'name' => 'CityTakeOff',
+      'address' => 'noreply@citytakeoff.com'
+    ],
+    'username' => '6cfb009fa51bfd',
+    'password' => '28ac84c9b8288d'
   ]
+
 
 ];

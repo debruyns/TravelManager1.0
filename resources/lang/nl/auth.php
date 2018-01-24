@@ -34,8 +34,7 @@ return [
 
       'pageTitle' => 'Wachtwoord Instellen',
       'header' => 'Kies een nieuw wachtwoord',
-      'invalid' => 'De opgegeven reset code is niet geldig',
-      'expired' => 'De opgegeven reset code is vervallen'
+      'invalid' => 'De opgegeven reset code is niet geldig of vervallen'
 
     ],
 

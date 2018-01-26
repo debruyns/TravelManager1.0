@@ -6,7 +6,8 @@
         "slim/csrf": "^0.8.2",
         "illuminate/database": "~5.1",
         "hassankhan/config": "^0.11.2",
-        "symfony/finder": "^4.0"
+        "symfony/finder": "^4.0",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "autoload": {
         "psr-4": {

@@ -47,6 +47,7 @@ class Mailer
         $message->body($this->parseView($view, $viewData));
 
         return $this->swift->send($message->getSwiftMessage());
+
     }
 
     protected function sendMailable(Mailable $mailable)

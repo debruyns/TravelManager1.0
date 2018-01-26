@@ -121,13 +121,19 @@ $container['view'] = function ($container) {
 
 // Mail functionality
 $container['mail'] = function ($container) {
-    $config = $container->config['mail'];
 
-    $transport = (Swift_SmtpTransport::newInstance($config['host'], $config['port']))
+    $config = null;
+    if ($_SERVER['SERVER_ADDR'] == '159.89.12.109' || $_SERVER['SERVER_ADDR'] == '159.89.10.62'){
+      $config = $container->config['mail'];
+    } else {
+      $config = $container->config['devmail'];
+    }
+
+    $transport = (new Swift_SmtpTransport($config['host'], $config['port']))
         ->setUsername($config['username'])
         ->setPassword($config['password']);
 
-    $swift = Swift_Mailer::newInstance($transport);
+    $swift = new Swift_Mailer($transport);
 
     return (new App\Mail\Mailer\Mailer($swift, $container->view))
         ->alwaysFrom($config['from']['address'], $config['from']['name']);

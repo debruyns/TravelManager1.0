@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use Slim\Views\Twig as View;
-use App\Models\User;
-use App\Mail
 
 class AuthController extends Controller {
 
@@ -16,11 +14,6 @@ class AuthController extends Controller {
         'title' => $this->translator->trans('auth.signin.pageTitle')
       ]
     ];
-
-    $user = User::find(1);
-    if ($user) {
-      $this->mail->to($user->email, $user->firstname)->send(new Welcome($user));
-    }
 
     return $this->view->render($response, 'auth/login.twig', $viewData);
 

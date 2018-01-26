@@ -32,8 +32,8 @@ abstract class Mailable implements MailableContract
             if ($this->from) {
                 $message->from($this->from['address'], $this->from['name']);
             }
-
             $this->buildAttachments($message);
+
         });
     }
 
@@ -77,6 +77,18 @@ abstract class Mailable implements MailableContract
         $this->subject = $subject;
 
         return $this;
+    }
+
+    public function getHost() {
+      if (isset($_SERVER['HTTPS'])){
+        if ($_SERVER['HTTPS'] == 'on'){
+          return 'https://'.$_SERVER['HTTP_HOST'].'/';
+        } else {
+          return 'http://'.$_SERVER['HTTP_HOST'].'/';
+        }
+      } else {
+        return 'http://'.$_SERVER['HTTP_HOST'].'/';
+      }
     }
 
     protected function buildAttachments(MessageBuilder $message)

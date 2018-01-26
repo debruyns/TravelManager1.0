@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\User;
 use App\Models\Recovery;
 use App\Middleware\AuthenticatorMiddleware;
+use App\Mail\PasswordReset;
 use DateTime;
 
 class AuthHelper {
@@ -88,6 +89,7 @@ class AuthHelper {
               ]);
 
               if ($newRecovery) {
+                $container->mail->to($user->email, $user->firstname." ".$user->lastname)->send(new PasswordReset($container->translator, $user, $code));
                 $container->flash->addMessage('success-heading', $container->translator->trans('auth.recovery.successHeading'));
                 $container->flash->addMessage('success', $container->translator->trans('auth.recovery.successMessage', [
                   '%email%' => $user->email

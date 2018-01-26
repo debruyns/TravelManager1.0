@@ -35,7 +35,21 @@ return [
       'pageTitle' => 'Reset Password',
       'header' => 'Choose a new password',
       'invalid' => 'The provided reset code is invalid/expired',
+      'success' => 'You can now login with your new password'
 
+    ],
+
+    'signup' => [
+
+      'pageTitle' => 'Sign Up',
+      'header' => 'TravelManager Sign Up',
+      'successHeading' => 'Great!',
+      'successMessage' => 'In a few moments we will send an email to %email% with the instruction to activate your account'
+
+    ],
+
+    'activate' => [
+      'success' => 'Your account is ready!'
     ],
 
     'validation' => [
@@ -49,7 +63,11 @@ return [
       'verifyCode' => 'The entered authentication code is not valid',
       'recoveryTime' => 'You can only do one application per 5 minutes',
       'wrongStatus' => 'Your account has been archived or suspended',
-      'error' => 'Something went wrong! Please try again'
+      'error' => 'Something went wrong! Please try again',
+      'minChar' => 'This field must contain at least %number% characters',
+      'match' => 'This field does not match your password',
+      'invalidEmail' => 'This is not a valid email address',
+      'usedEmail' => 'An account already exists with this email address'
 
     ]
 

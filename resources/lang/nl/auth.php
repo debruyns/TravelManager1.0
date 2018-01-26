@@ -6,7 +6,7 @@ return [
 
     'signin' => [
 
-      'pageTitle' => 'TravelManager - Inloggen',
+      'pageTitle' => 'Inloggen',
       'header' => 'TravelManager Inloggen',
       'logoutMsg' => 'U bent succesvol uitgelogd',
       'cancelMsg' => 'U hebt het aanmelden geannuleerd',
@@ -34,8 +34,22 @@ return [
 
       'pageTitle' => 'Wachtwoord Instellen',
       'header' => 'Kies een nieuw wachtwoord',
-      'invalid' => 'De opgegeven reset code is niet geldig of vervallen'
+      'invalid' => 'De opgegeven reset code is niet geldig of vervallen',
+      'success' => 'U kan nu inloggen met uw nieuwe wachtwoord'
 
+    ],
+
+    'signup' => [
+
+      'pageTitle' => 'Registreren',
+      'header' => 'TravelManager Registreren',
+      'successHeading' => 'Perfect!',
+      'successMessage' => 'Binnen enkele momenten zullen we een email sturen naar %email% met de instructies om uw account te activeren'
+
+    ],
+
+    'activate' => [
+      'success' => 'Uw account is klaar voor gebruik!'
     ],
 
     'validation' => [
@@ -49,7 +63,11 @@ return [
       'verifyCode' => 'De ingevoerde authenticatie code is niet geldig',
       'recoveryTime' => 'U kan maar 1 aanvraag per 5 minuten uitvoeren',
       'wrongStatus' => 'Uw account is gearchiveerd of geschorst',
-      'error' => 'Er is iets fout gegaan! Probeer het opnieuw'
+      'error' => 'Er is iets fout gegaan! Probeer het opnieuw',
+      'minChar' => 'Dit veld moet minstens %number% karakters bevatten',
+      'match' => 'Dit veld komt niet overeen met uw wachtwoord',
+      'invalidEmail' => 'Dit is geen geldig e-mailadres',
+      'usedEmail' => 'Er bestaat al een account met dit e-mailadres'
     ]
 
   ]

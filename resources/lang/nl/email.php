@@ -11,6 +11,14 @@ return [
       'button' => 'Wachtwoord Instellen',
       'subject' => 'Wachtwoord opnieuw instellen'
 
+    ],
+
+    'activate' => [
+      'greeting' => 'Hallo!',
+      'subject' => 'Welkom bij TravelManager',
+      'welcome' => 'Welkom bij TravelManager',
+      'activate' => 'Activeer Account',
+      'text' => 'Proficiat met je TravelManager account. Voor je van start kan gaan moet je op onderstaande knop drukken om je account te activeren.'
     ]
 
   ]

@@ -9,7 +9,9 @@ return [
       'email' => 'Email address',
       'password' => 'Password',
       'code'  => 'Code',
-      'confirm' => 'Confirm password'
+      'confirm' => 'Confirm password',
+      'firstname' => 'Firstname',
+      'lastname' => 'Lastname'
 
     ],
 
@@ -25,7 +27,8 @@ return [
       'verify'  => 'Verify',
       'cancel'  => 'Cancel',
       'recover' => 'Recover',
-      'save' => 'Save'
+      'save' => 'Save',
+      'signup' => 'Sign Up'
 
     ]
 

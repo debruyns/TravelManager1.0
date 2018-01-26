@@ -13,6 +13,7 @@ $app->group('', function() {
 
   // Sign Up Routes
   $this->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
+  $this->post('/auth/signup', 'AuthController:postSignUp');
 
   // Recovery Routes
   $this->get('/auth/recovery', 'AuthController:getRecovery')->setName('auth.recovery');
@@ -21,6 +22,9 @@ $app->group('', function() {
   // Reset Routes
   $this->get('/auth/reset/{code}', 'AuthController:getReset')->setName('auth.reset');
   $this->post('/auth/reset', 'AuthController:postReset')->setName('auth.reset.post');
+
+  // Activate Routes
+  $this->get('/auth/activate/{code}', 'AuthController:getActivate')->setName('auth.activate');
 
 })->add(new GuestRouteMiddleware($container));
 

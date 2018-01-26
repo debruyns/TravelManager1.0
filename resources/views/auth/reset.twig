@@ -11,7 +11,7 @@
     <h1 class="h3 mb-3 font-weight-normal">{{ trans('auth.reset.header') }}</h1>
 
     <div class="form-group">
-      <input type="password" name="password" class="form-control f-no-border {{ flash.getMessage('error_email') ? ' is-invalid' : '' }}" placeholder="{{ trans('input.label.password') }}">
+      <input type="password" name="password" class="form-control f-no-border {{ flash.getMessage('error_password') ? ' is-invalid' : '' }}" placeholder="{{ trans('input.label.password') }}">
       {% if flash.getMessage('error_password') %}
         <small class="text-danger">{{ flash.getMessage('error_password') | first }}</small>
       {% endif %}
@@ -23,6 +23,8 @@
         <small class="text-danger">{{ flash.getMessage('error_confirm') | first }}</small>
       {% endif %}
     </div>
+
+    <input type="hidden" name="resetcode" value="{{ resetcode }}">
 
     <button class="btn btn-md btn-primary btn-block" type="submit">{{ trans('input.button.save') }}</button>
 

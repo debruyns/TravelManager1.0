@@ -9,7 +9,9 @@ return [
       'email' => 'E-mailadres',
       'password' => 'Wachtwoord',
       'code'  => 'Code',
-      'confirm' => 'Bevestig wachtwoord'
+      'confirm' => 'Bevestig wachtwoord',
+      'firstname' => 'Voornaam',
+      'lastname' => 'Achternaam'
 
     ],
 
@@ -25,7 +27,8 @@ return [
       'verify'  => 'Controleren',
       'cancel'  => 'Annuleren',
       'recover' => 'Ophalen',
-      'save' => 'Opslaan'
+      'save' => 'Opslaan',
+      'signup' => 'Registreren'
 
     ]
 

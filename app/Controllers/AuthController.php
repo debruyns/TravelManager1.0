@@ -35,7 +35,25 @@ class AuthController extends Controller {
 
   // HTTP GET Sign Up
   public function getSignUp($request, $response) {
-    return $this->view->render($response, 'auth/signup.twig');
+
+    $viewData = [
+      'page' => [
+        'title' => $this->translator->trans('auth.signup.pageTitle')
+      ]
+    ];
+
+    return $this->view->render($response, 'auth/signup.twig', $viewData);
+
+  }
+
+  // HTTP POST Sign Up
+  public function postSignUp($request, $response) {
+    $result = $this->AuthHelper->userSignUp($request, $this);
+    if ($result === true){
+      return $response->withRedirect($this->router->pathFor('auth.signin'));
+    } else {
+      return $response->withRedirect($this->router->pathFor('auth.signup'));
+    }
   }
 
   // HTTP GET Verify
@@ -105,10 +123,29 @@ class AuthController extends Controller {
       'page' => [
         'title' => $this->translator->trans('auth.reset.pageTitle')
       ],
-      'checkResult' => $result
+      'checkResult' => $result,
+      'resetcode' => $args['code']
     ];
 
     return $this->view->render($response, 'auth/reset.twig', $viewData);
+
+  }
+
+  // HTTP POST Reset
+  public function postReset($request, $response, $args) {
+    $result = $this->AuthHelper->userPasswordReset($request, $this);
+    if ($result === true){
+      return $response->withRedirect($this->router->pathFor('auth.signin'));
+    } else {
+      return $response->withRedirect($this->router->pathFor('auth.reset', [ 'code' => $request->getParam('resetcode') ]));
+    }
+  }
+
+  // HTTP GET Reset
+  public function getActivate($request, $response, $args) {
+
+    $this->AuthHelper->userActivate($args['code'], $this);
+    return $response->withRedirect($this->router->pathFor('auth.signin'));
 
   }
 

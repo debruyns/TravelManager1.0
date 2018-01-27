@@ -11,7 +11,11 @@ return [
       'code'  => 'Code',
       'confirm' => 'Bevestig wachtwoord',
       'firstname' => 'Voornaam',
-      'lastname' => 'Achternaam'
+      'lastname' => 'Achternaam',
+      'currentPassword' => 'Huidig Wachtwoord',
+      'newPassword' => 'Nieuw Wachtwoord',
+      'confirmPassword' => 'Bevestig Wachtwoord',
+      'language' => 'Taal'
 
     ],
 

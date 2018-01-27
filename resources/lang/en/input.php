@@ -11,8 +11,12 @@ return [
       'code'  => 'Code',
       'confirm' => 'Confirm password',
       'firstname' => 'Firstname',
-      'lastname' => 'Lastname'
-
+      'lastname' => 'Lastname',
+      'currentPassword' => 'Current Password',
+      'newPassword' => 'New Password',
+      'confirmPassword' => 'Confirm Password',
+      'language' => 'Language'
+      
     ],
 
     'placeholder' => [

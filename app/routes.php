@@ -37,6 +37,12 @@ $app->group('', function() {
   // Logout Routes
   $this->get('/auth/logout', 'AuthController:getLogout')->setName('auth.logout');
 
+  // Account Routes
+  $this->get('/account', 'AccountController:getAccount')->setName('account');
+  $this->post('/account/details', 'AccountController:postAccountDetails')->setName('account.details');
+  $this->post('/account/password', 'AccountController:postPassword')->setName('account.password');
+  $this->post('/account/language', 'AccountController:postLanguage')->setName('account.language');
+
 })->add(new AuthRouteMiddleware($container));
 
 // Routes that are accessible when two factor verification is active

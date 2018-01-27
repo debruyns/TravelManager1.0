@@ -8,8 +8,14 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto mr-2">
       {% if session.check %}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path_for('home') }}">{{ session.user.firstname }} {{ session.user.lastname }}</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ session.user.firstname }} {{ session.user.lastname }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path_for('account') }}">{{ trans('nav.auth.account') }}</a>
+            <a class="dropdown-item" href="{{ path_for('auth.logout') }}">{{ trans('nav.auth.logout') }}</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path_for('home') }}">{{ trans('nav.auth.trips') }}</a>

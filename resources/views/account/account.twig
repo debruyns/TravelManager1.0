@@ -1,0 +1,181 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div id="accordion" class="accordion-menu mt-5 mx-auto">
+
+  {% include 'templates/message.twig' %}
+
+  <div class="card">
+
+    <div class="card-header" id="headingDetails">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+          {{ trans('account.account.details') }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseDetails" class="collapse{{ flash.getMessage('account_details') ? ' show' : '' }}" aria-labelledby="headingDetails" data-parent="#accordion">
+      <div class="card-body">
+        <form class="form-account mx-auto mt-3 mb-4" method="post" action="{{ path_for('account.details') }}" autocomplete="off">
+
+          <div class="form-group">
+            <label for="firstname">{{ trans('input.label.firstname') }}</label>
+            <input type="text" name="firstname" class="form-control f-no-border {{ flash.getMessage('error_firstname') ? ' is-invalid' : '' }}" value="{{ persistInput.firstname ? persistInput.firstname : session.user.firstname}}">
+            {% if flash.getMessage('error_firstname') %}
+              <small class="text-danger">{{ flash.getMessage('error_firstname') | first }}</small>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="lastname">{{ trans('input.label.lastname') }}</label>
+            <input type="text" name="lastname" class="form-control f-no-border {{ flash.getMessage('error_lastname') ? ' is-invalid' : '' }}" value="{{ persistInput.lastname ? persistInput.lastname : session.user.lastname }}">
+            {% if flash.getMessage('error_lastname') %}
+              <small class="text-danger">{{ flash.getMessage('error_lastname') | first }}</small>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="email">{{ trans('input.label.email') }}</label>
+            <input type="text" name="email" class="form-control f-no-border {{ flash.getMessage('error_email') ? ' is-invalid' : '' }}" value="{{ persistInput.email ? persistInput.email : session.user.email }}">
+            {% if flash.getMessage('error_email') %}
+              <small class="text-danger">{{ flash.getMessage('error_email') | first }}</small>
+            {% endif %}
+          </div>
+
+          <button class="btn btn-md btn-primary btn-block mx-auto mt-4" style="width: 50%;" type="submit">{{ trans('input.button.save') }}</button>
+
+          {{ csrf.fields | raw }}
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header" id="headingPassword">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePassword" aria-expanded="false" aria-controls="collapsePassword">
+          {{ trans('account.account.password') }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapsePassword" class="collapse{{ flash.getMessage('account_password') ? ' show' : '' }}" aria-labelledby="headingPassword" data-parent="#accordion">
+      <div class="card-body">
+
+        <form class="form-account mx-auto mt-3 mb-4" method="post" action="{{ path_for('account.password') }}" autocomplete="off">
+
+          <div class="form-group">
+            <label for="currentPassword">{{ trans('input.label.currentPassword') }}</label>
+            <input type="password" name="currentPassword" class="form-control f-no-border {{ flash.getMessage('error_currentPassword') ? ' is-invalid' : '' }}">
+            {% if flash.getMessage('error_currentPassword') %}
+              <small class="text-danger">{{ flash.getMessage('error_currentPassword') | first }}</small>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">{{ trans('input.label.newPassword') }}</label>
+            <input type="password" name="newPassword" class="form-control f-no-border {{ flash.getMessage('error_newPassword') ? ' is-invalid' : '' }}">
+            {% if flash.getMessage('error_newPassword') %}
+              <small class="text-danger">{{ flash.getMessage('error_newPassword') | first }}</small>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">{{ trans('input.label.confirmPassword') }}</label>
+            <input type="password" name="confirmPassword" class="form-control f-no-border {{ flash.getMessage('error_confirmPassword') ? ' is-invalid' : '' }}">
+            {% if flash.getMessage('error_confirmPassword') %}
+              <small class="text-danger">{{ flash.getMessage('error_confirmPassword') | first }}</small>
+            {% endif %}
+          </div>
+
+          <button class="btn btn-md btn-primary btn-block mx-auto mt-4" style="width: 50%;" type="submit">{{ trans('input.button.save') }}</button>
+
+          {{ csrf.fields | raw }}
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header" id="headingLanguage">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseLanguage" aria-expanded="false" aria-controls="collapseLanguage">
+          {{ trans('account.account.language') }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseLanguage" class="collapse{{ flash.getMessage('account_language') ? ' show' : '' }}" aria-labelledby="headingLanguage" data-parent="#accordion">
+      <div class="card-body">
+
+        <form class="form-account mx-auto mt-3 mb-4" method="post" action="{{ path_for('account.language') }}" autocomplete="off">
+
+          <div class="form-group">
+            <label for="language">{{ trans('input.label.language') }}</label>
+            <select name="language" class="form-control f-no-border {{ flash.getMessage('error_language') ? ' is-invalid' : '' }}">
+              {{ languages | raw }}
+            </select>
+            {% if flash.getMessage('error_language') %}
+              <small class="text-danger">{{ flash.getMessage('error_language') | first }}</small>
+            {% endif %}
+          </div>
+
+          <button class="btn btn-md btn-primary btn-block mx-auto mt-4" style="width: 50%;" type="submit">{{ trans('input.button.save') }}</button>
+
+          {{ csrf.fields | raw }}
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header" id="headingPremium">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePremium" aria-expanded="false" aria-controls="collapsePremium">
+          {{ trans('account.account.premium') }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapsePremium" class="collapse{{ flash.getMessage('account_premium') ? ' show' : '' }}" aria-labelledby="headingPremium" data-parent="#accordion">
+      <div class="card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header" id="headingTwoFactor">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwoFactor" aria-expanded="false" aria-controls="collapseTwoFactor">
+          {{ trans('account.account.twofactor') }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseTwoFactor" class="collapse{{ flash.getMessage('account_twofactor') ? ' show' : '' }}" aria-labelledby="headingTwoFactor" data-parent="#accordion">
+      <div class="card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

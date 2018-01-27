@@ -82,6 +82,11 @@ $container['AuthHelper'] = function ($container) {
     return new \App\Helpers\AuthHelper;
 };
 
+// Account Helper
+$container['AccountHelper'] = function ($container) {
+    return new \App\Helpers\AccountHelper;
+};
+
 // Language Helper
 $container['LanguageHelper'] = function ($container) {
     return new \App\Helpers\LanguageHelper;
@@ -147,6 +152,11 @@ $container['HomeController'] = function ($container) {
 // Setup Auth Controller
 $container['AuthController'] = function ($container) {
     return new \App\Controllers\AuthController($container);
+};
+
+// Setup Account Controller
+$container['AccountController'] = function ($container) {
+    return new \App\Controllers\AccountController($container);
 };
 
 // Setup Language Controller

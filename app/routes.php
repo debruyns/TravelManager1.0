@@ -42,6 +42,18 @@ $app->group('', function() {
   $this->post('/account/details', 'AccountController:postAccountDetails')->setName('account.details');
   $this->post('/account/password', 'AccountController:postPassword')->setName('account.password');
   $this->post('/account/language', 'AccountController:postLanguage')->setName('account.language');
+  $this->post('/account/premium', 'AccountController:postPremium')->setName('account.premium');
+  $this->post('/account/twofactor/activate', 'AccountController:postTwofactorActivate')->setName('account.twofactor.activate');
+  $this->post('/account/twofactor/deactivate', 'AccountController:postTwofactorDeactivate')->setName('account.twofactor.deactivate');
+
+  // Trip Routes
+  $this->get('/trips', 'TripController:getTrips')->setName('trips');
+  $this->get('/trips/create', 'TripController:getCreateTrip')->setName('trips.create');
+  $this->post('/trips/create', 'TripController:postCreateTrip');
+
+
+  // Payment Routes
+  $this->get('/payment/token', 'PaymentController:getToken')->setName('payment.token');
 
 })->add(new AuthRouteMiddleware($container));
 

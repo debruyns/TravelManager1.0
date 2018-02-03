@@ -1,0 +1,13 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="mx-auto mt-5 text-center">
+
+  <h1 class="mb-4">{{ trans('error.404.header') }}</h1>
+  <h6>{{ trans('error.404.subheader-1') }}<br />{{ trans('error.404.subheader-2') }}</h6>
+  <a href="{{ path_for('home') }}" class="btn btn-primary mt-5">{{ trans('error.404.button') }}</a>
+
+</div>
+
+{% endblock %}

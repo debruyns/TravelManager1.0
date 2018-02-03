@@ -1,0 +1,143 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="card mt-5">
+
+  <div class="card-header">
+    <span class="align-middle">{{ trans('trips.general.mytrips') }}</span>
+    <a href="{{ path_for('trips.create') }}" class="btn btn-primary float-right">{{ trans('trips.general.create') }}</a>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="card-body">
+
+    {% if mytrips is not empty %}
+
+      {% for row in mytrips | batch(4, 'Empty') %}
+
+        <div class="row">
+
+          {% for trip in row %}
+
+            {% if trip.id %}
+              <div class="col trip-card">
+                <div class="card trip-card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ trip.name }}</h5>
+
+                    {% if trip.start == trip.stop %}
+                      <h6 class="card-subtitle text-muted">{{ trip.start | date('d/m/Y') }}</h6>
+                    {% else %}
+                      <h6 class="card-subtitle text-muted">{{ trip.start | date('d/m/Y') }} - {{ trip.stop | date('d/m/Y') }}</h6>
+                    {% endif %}
+
+                    <p class="card-text mt-3">
+
+                      {% if trip.active == 'true' %}
+                        {{ trans('trips.general.status') }}: <span class="text-success">{{ trans('trips.status.active') }}</span><br />
+                      {% else %}
+                        {{ trans('trips.general.status') }}: <span class="text-danger">{{ trans('trips.status.archived') }}</span><br />
+                      {% endif %}
+
+                      {% if trip.shared %}
+                        {{ trans('trips.general.shared') }}: <span class="text-success">{{ trans('trips.shared.yes') }}</span><br />
+                      {% else %}
+                        {{ trans('trips.general.shared') }}: <span class="text-danger">{{ trans('trips.shared.no') }}</span><br />
+                      {% endif %}
+
+                      {{ trans('trips.general.type') }}: <span class="text-muted">{{ trans('trips.type.' ~ trip.type) }}</span><br /><br />
+
+                      {{ trans('trips.general.phase') }}: <span class="text-muted">{{ trans('trips.phase.' ~ trip.phase) }}</span>
+
+                    </p>
+                    <a href="#" class="card-link">{{ trans('trips.general.manage') }}</a>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="col"></div>
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+
+      {% endfor %}
+
+    {% else %}
+      <h6 class="text-muted">{{ trans('trips.general.nofound') }}</h>
+    {% endif %}
+
+  </div>
+
+</div>
+
+<div class="card mt-5">
+
+  <div class="card-header">{{ trans('trips.general.sharedtrips') }}</div>
+
+  <div class="card-body">
+
+    {% if myshared is not empty %}
+
+      {% for row in myshared | batch(4, 'Empty') %}
+
+        <div class="row">
+
+          {% for trip in row %}
+
+            {% if trip.id %}
+              <div class="col trip-card">
+                <div class="card trip-card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ trip.name }}</h5>
+
+                    {% if trip.start == trip.stop %}
+                      <h6 class="card-subtitle text-muted">{{ trip.start | date('d/m/Y') }}</h6>
+                    {% else %}
+                      <h6 class="card-subtitle text-muted">{{ trip.start | date('d/m/Y') }} - {{ trip.stop | date('d/m/Y') }}</h6>
+                    {% endif %}
+
+                    <p class="card-text mt-3">
+
+                      {% if trip.active %}
+                        {{ trans('trips.general.status') }}: <span class="text-success">{{ trans('trips.status.active') }}</span><br />
+                      {% else %}
+                        {{ trans('trips.general.status') }}: <span class="text-danger">{{ trans('trips.status.archived') }}</span><br />
+                      {% endif %}
+
+                      {{ trans('trips.general.owner') }}: <span class="text-muted">{{ trip.owner.firstname }} {{ trip.owner.lastname }}</span><br />
+
+                      {{ trans('trips.general.type') }}: <span class="text-muted">{{ trans('trips.type.' ~ trip.type) }}</span><br /><br />
+
+                      {{ trans('trips.general.phase') }}: <span class="text-muted">{{ trans('trips.phase.' ~ trip.phase) }}</span>
+
+                    </p>
+                    {% if trip.readonly %}
+                      <a href="#" class="card-link">{{ trans('trips.general.view') }}</a>
+                    {% else %}
+                      <a href="#" class="card-link">{{ trans('trips.general.manage') }}</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="col"></div>
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+
+      {% endfor %}
+
+    {% else %}
+      <h6 class="text-muted">{{ trans('trips.general.noshared') }}</h>
+    {% endif %}
+
+  </div>
+
+</div>
+
+{% endblock %}

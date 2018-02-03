@@ -40,6 +40,13 @@ return [
     ],
     'username' => 'postmaster@citytakeoff.com',
     'password' => '8641984954003ecefd68a5dd01936d90'
+  ],
+
+  'devpay' => [
+    'environment' => 'sandbox',
+    'merchant' => 'mbc2kjh4pdqf3xht',
+    'public' => 'vcgk7j7tpzrp5238',
+    'private' => 'a8c8a20106cbf85a269595ab936d2286'
   ]
 
 ];

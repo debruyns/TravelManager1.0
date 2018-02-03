@@ -4,6 +4,7 @@
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Finder\Finder;
+use Braintree\Configuration;
 use Noodlehaus\Config;
 
 // Start a session
@@ -82,6 +83,11 @@ $container['AuthHelper'] = function ($container) {
     return new \App\Helpers\AuthHelper;
 };
 
+// Trip Helper
+$container['TripHelper'] = function ($container) {
+    return new \App\Helpers\TripHelper;
+};
+
 // Account Helper
 $container['AccountHelper'] = function ($container) {
     return new \App\Helpers\AccountHelper;
@@ -112,11 +118,16 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('session', [
       'check' => $container->AuthHelper->checkSession(),
       'user'  => $container->AuthHelper->getSessionUser(),
-      'twofactor' => $container->AuthHelper->checkTwoFactor()
+      'twofactor' => $container->AuthHelper->checkTwoFactor(),
+      'premium' => [
+        'check' => $container->AuthHelper->checkPremium(),
+        'date' => $container->AuthHelper->premiumDate()
+      ]
     ]);
 
     $view->getEnvironment()->addGlobal('language', [
       'active' => $container->LanguageHelper->getActiveLanguage($container),
+      'code' => $container->config->get('app.locale'),
       'list' => $container->LanguageHelper->getList($container)
     ]);
 
@@ -159,6 +170,16 @@ $container['AccountController'] = function ($container) {
     return new \App\Controllers\AccountController($container);
 };
 
+// Setup Trip Controller
+$container['TripController'] = function ($container) {
+    return new \App\Controllers\TripController($container);
+};
+
+// Setup Account Controller
+$container['PaymentController'] = function ($container) {
+    return new \App\Controllers\PaymentController($container);
+};
+
 // Setup Language Controller
 $container['LanguageController'] = function ($container) {
     return new \App\Controllers\LanguageController($container);
@@ -167,6 +188,19 @@ $container['LanguageController'] = function ($container) {
 // Setup Dashboard Controller
 $container['DashboardController'] = function ($container) {
     return new \App\Controllers\DashboardController($container);
+};
+
+// Setup 404 page
+$container['notFoundHandler'] = function ($container) {
+  return function ($request, $response) use ($container) {
+    $viewData = [
+      'page' => [
+        'title' => $container->translator->trans('error.404.pageTitle')
+      ]
+    ];
+    $container->view->render($response, 'errors/404.twig', $viewData);
+    return $response->withStatus(404);
+  };
 };
 
 // Setup CSRF
@@ -179,6 +213,17 @@ $app->add($container->csrf);
 // Persist Input Data
 $app->add(new \App\Middleware\PersistInputMiddleware($container));
 
+// Braintree Payments
+$pay = null;
+if ($_SERVER['SERVER_ADDR'] == '159.89.12.109') {
+  //$pay = $container->config['devpay'];
+} else {
+  $pay = $container->config['devpay'];
+}
+Configuration::environment($pay['environment']);
+Configuration::merchantId($pay['merchant']);
+Configuration::publicKey($pay['public']);
+Configuration::privateKey($pay['private']);
 
 // Require the routes
 require __DIR__ . '/../app/routes.php';

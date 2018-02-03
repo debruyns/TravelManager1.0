@@ -10,12 +10,16 @@ class AccountController extends Controller {
   public function getAccount($request, $response) {
 
     $languages = $this->AccountHelper->getLanguages($this);
+    $plans = $this->AccountHelper->getPlans($this);
+    $twofactor = $this->AccountHelper->getTwofactor($this);
 
     $viewData = [
       'page' => [
         'title' => $this->translator->trans('account.account.pageTitle')
       ],
-      'languages' => $languages
+      'languages' => $languages,
+      'plans' => $plans,
+      'twofactor' => $twofactor
     ];
 
     return $this->view->render($response, 'account/account.twig', $viewData);
@@ -54,8 +58,43 @@ class AccountController extends Controller {
     $result = $this->AccountHelper->updateLanguage($request, $this);
     if (!$result) {
       $this->flash->addMessage('account_language', 'true');
+    }
+    return $response->withRedirect($this->router->pathFor('account'));
+
+  }
+
+  // HTTP Post Premium
+  public function postPremium($request, $response) {
+
+    $result = $this->AccountHelper->buyPremium($request, $this);
+    if (!$result) {
+      $this->flash->addMessage('account_premium', 'true');
+    }
+    return $response->withRedirect($this->router->pathFor('account'));
+
+  }
+
+  // HTTP Post Two Factor Activate
+  public function postTwofactorActivate($request, $response) {
+
+    $result = $this->AccountHelper->activateTwofactor($request, $this);
+    if (!$result) {
+      $this->flash->addMessage('account_twofactor', 'true');
     } else {
-      $this->flash->addMessage('success', $this->translator->trans('account.language.success', [], null, $_SESSION['user_language']));
+      $this->flash->addMessage('success', $this->translator->trans('account.twofactor.success'));
+    }
+    return $response->withRedirect($this->router->pathFor('account'));
+
+  }
+
+  // HTTP Post Two Factor Deactivate
+  public function postTwofactorDeactivate($request, $response) {
+
+    $result = $this->AccountHelper->deactivateTwofactor($request, $this);
+    if (!$result) {
+      $this->flash->addMessage('account_twofactor', 'true');
+    } else {
+      $this->flash->addMessage('success', $this->translator->trans('account.twofactor.successDeactivate'));
     }
     return $response->withRedirect($this->router->pathFor('account'));
 

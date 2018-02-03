@@ -152,7 +152,44 @@
 
     <div id="collapsePremium" class="collapse{{ flash.getMessage('account_premium') ? ' show' : '' }}" aria-labelledby="headingPremium" data-parent="#accordion">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+
+        {% if session.user.premium == '9999-12-31' %}
+          <h6>{{ trans('account.premium.lifetime') }}</h6>
+        {% elseif session.premium.check %}
+          <h6>{{ trans('account.premium.validUntil') }} {{ session.premium.date }}</h6>
+        {% else %}
+          <h6>{{ trans('account.premium.normal') }}</h6>
+        {% endif %}
+
+        {% if session.user.premium != '9999-12-31' %}
+
+          <div class="card mt-4">
+
+            <div class="card-header">{{ trans('account.premium.extend') }}</div>
+
+            <form class="form-account mx-auto mt-3 mb-4" id="premiumForm" method="post" action="{{ path_for('account.premium') }}" autocomplete="off">
+              <label for="plan">{{ trans('input.label.plan') }}</label>
+              <select name="plan" class="form-control f-no-border {{ flash.getMessage('error_plan') ? ' is-invalid' : '' }}">
+                {{ plans | raw }}
+              </select>
+              {% if flash.getMessage('error_plan') %}
+                <small class="text-danger">{{ flash.getMessage('error_plan') | first }}</small>
+              {% endif %}
+
+              <div class="mt-3" id="payment-container"></div>
+
+              <input type="hidden" value="" name="nonce" id="nonceHidden">
+
+              <button class="btn btn-md btn-primary btn-block mx-auto mt-4" id="payment-button" style="width: 50%;" type="submit">{{ trans('input.button.buy') }}</button>
+
+              {{ csrf.fields | raw }}
+
+            </form>
+
+          </div>
+
+        {% endif %}
+
       </div>
     </div>
 
@@ -170,12 +207,125 @@
 
     <div id="collapseTwoFactor" class="collapse{{ flash.getMessage('account_twofactor') ? ' show' : '' }}" aria-labelledby="headingTwoFactor" data-parent="#accordion">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+
+        {% if session.user.twofactor == "" %}
+
+          <div class="card mt-2">
+
+            <div class="card-header">{{ trans('account.twofactor.activate') }}</div>
+
+            <div class="card-body text-center">
+
+              <span>{{ trans('account.twofactor.activateInstruction') }}</span><br /><br />
+              <div class="card d-inline-block p-1">
+                <img src="{{ flash.getMessage('twofactor_qr') ? flash.getMessage('twofactor_qr') | first : twofactor.qr }}" alt="" class="mb-0 pb-0" /><br />
+                <small class="mt-0">{{ flash.getMessage('twofactor_secret') ? flash.getMessage('twofactor_secret') | first : twofactor.secret }}</small>
+              </div>
+
+              <form class="mt-4" method="post" action="{{ path_for('account.twofactor.activate') }}" autocomplete="off">
+                <div class="input-group mb-3 mx-auto" style="width: 40%;">
+                  <input type="text" name="code" class="form-control f-no-border" placeholder="{{ trans('input.label.code') }}" maxlength="6">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">{{ trans('input.button.activate') }}</button>
+                  </div>
+                </div>
+                {% if flash.getMessage('error_twofactor') %}
+                  <small class="text-danger">{{ flash.getMessage('error_twofactor') | first }}</small>
+                {% endif %}
+                <input type="hidden" name="secret" value="{{ flash.getMessage('twofactor_secret') ? flash.getMessage('twofactor_secret') | first : twofactor.secret }}">
+
+                {{ csrf.fields | raw }}
+
+              </form>
+
+            </div>
+
+          </div>
+
+
+        {% else %}
+
+        <div class="card mt-2">
+
+          <div class="card-header">{{ trans('account.twofactor.deactivate') }}</div>
+
+          <div class="card-body text-center">
+
+            <span>{{ trans('account.twofactor.deactivateInstruction') }}</span><br /><br />
+
+            <form class="mt-1" method="post" action="{{ path_for('account.twofactor.deactivate') }}" autocomplete="off">
+              <div class="input-group mb-3 mx-auto" style="width: 40%;">
+                <input type="text" name="code" class="form-control f-no-border" placeholder="{{ trans('input.label.code') }}" maxlength="6">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="submit">{{ trans('input.button.deactivate') }}</button>
+                </div>
+              </div>
+              {% if flash.getMessage('error_twofactor') %}
+                <small class="text-danger">{{ flash.getMessage('error_twofactor') | first }}</small>
+              {% endif %}
+
+              {{ csrf.fields | raw }}
+
+            </form>
+
+          </div>
+
+        </div>
+
+        {% endif %}
+
       </div>
     </div>
 
   </div>
 
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+  <script src="https://js.braintreegateway.com/web/dropin/1.9.3/js/dropin.min.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.28.1/js/three-d-secure.min.js"></script>
+
+  <script>
+
+    var premiumForm = document.querySelector('#premiumForm');
+    var nonceHidden = document.querySelector('#nonceHidden');
+
+    $.ajax({
+      url: '{{ path_for('payment.token') }}',
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        braintree.dropin.create({
+          authorization: data.token,
+          container: '#payment-container',
+          locale: '{{ language.code }}'
+        }, function (err, dropinInstance) {
+            premiumForm.addEventListener('submit', function (event) {
+
+              event.preventDefault();
+
+              dropinInstance.requestPaymentMethod(function (err, payload) {
+
+                if (err) {
+                  // Handle error
+                  alert("Test");
+                  return;
+                }
+
+                nonceHidden.value = payload.nonce;
+                premiumForm.submit();
+
+              });
+
+            });
+        });
+      }
+    });
+
+  </script>
 
 {% endblock %}

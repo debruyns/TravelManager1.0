@@ -15,8 +15,9 @@ return [
       'currentPassword' => 'Current Password',
       'newPassword' => 'New Password',
       'confirmPassword' => 'Confirm Password',
-      'language' => 'Language'
-      
+      'language' => 'Language',
+      'plan' => 'Membership Period'
+
     ],
 
     'placeholder' => [
@@ -32,7 +33,11 @@ return [
       'cancel'  => 'Cancel',
       'recover' => 'Recover',
       'save' => 'Save',
-      'signup' => 'Sign Up'
+      'signup' => 'Sign Up',
+      'buy' => 'Buy',
+      'activate' => 'Enable',
+      'deactivate' => 'Disable',
+      'create' => 'Create'
 
     ]
 

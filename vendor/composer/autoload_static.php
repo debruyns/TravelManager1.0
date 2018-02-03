@@ -63,6 +63,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         array (
             'Carbon\\' => 7,
         ),
+        'B' => 
+        array (
+            'Braintree\\' => 10,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -154,6 +158,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
         ),
+        'Braintree\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -180,6 +188,13 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+        ),
+        'B' => 
+        array (
+            'Braintree' => 
+            array (
+                0 => __DIR__ . '/..' . '/braintree/braintree_php/lib',
             ),
         ),
     );

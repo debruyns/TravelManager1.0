@@ -4,7 +4,10 @@ namespace App\Helpers;
 
 use App\Models\User;
 use App\Models\Language;
+use App\Models\Membership;
+use App\Models\Payment;
 use App\Middleware\AuthenticatorMiddleware;
+use Braintree\Transaction;
 use DateTime;
 
 class AccountHelper {
@@ -20,6 +23,141 @@ class AccountHelper {
       }
     }
     return $return;
+  }
+
+  public function getTwofactor($container) {
+    $user = $container->AuthHelper->getSessionUser();
+    $auth = new AuthenticatorMiddleware();
+    $secret = $auth->generateRandomSecret();
+    $QR = $auth->getQR($user->email, $secret, "TravelManager");
+    return [
+      'secret' => $secret,
+      'qr' => $QR
+    ];
+  }
+
+  public function getPlans($container) {
+    $return = "";
+    $plans = Membership::where('active', 'true')->orderBy('days', 'ASC')->get();
+    foreach ($plans as $plan) {
+      $return .= '<option value="'.$plan->id.'">'.$container->translator->trans('account.premium.option', [ '%days%' => $plan->days, '%price%' => number_format($plan->price, 2, '.', '') ]).'</option>';
+    }
+    return $return;
+  }
+
+  public function activateTwofactor($request, $container) {
+
+    $user = $container->AuthHelper->getSessionUser();
+    if (empty($user->twofactor)) {
+
+      $auth = new AuthenticatorMiddleware();
+      if ($auth->verifyCode($request->getParam('secret'), $request->getParam('code'), 1)) {
+        $user->twofactor = $request->getParam('secret');
+        $user->save();
+        return true;
+      } else {
+        $container->flash->addMessage('error_twofactor', $container->translator->trans('auth.validation.verifyCode'));
+        $container->flash->addMessage('twofactor_secret', $request->getParam('secret'));
+        $container->flash->addMessage('twofactor_qr', $auth->getQR($user->email, $request->getParam('secret'), "TravelManager"));
+        return false;
+      }
+    } else {
+      $container->flash->addMessage('error', $container->translator->trans('auth.validation.error'));
+      return false;
+    }
+
+  }
+
+  public function deactivateTwofactor($request, $container) {
+
+    $user = $container->AuthHelper->getSessionUser();
+    if (!empty($user->twofactor)) {
+
+      $auth = new AuthenticatorMiddleware();
+      if ($auth->verifyCode($user->twofactor, $request->getParam('code'), 1)) {
+        $user->twofactor = null;
+        $user->save();
+        return true;
+      } else {
+        $container->flash->addMessage('error_twofactor', $container->translator->trans('auth.validation.verifyCode'));
+        return false;
+      }
+    } else {
+      $container->flash->addMessage('error', $container->translator->trans('auth.validation.error'));
+      return false;
+    }
+
+  }
+
+  public function buyPremium($request, $container) {
+
+    if ($request->getParam('nonce')) {
+
+      $membership = Membership::find($request->getParam('plan'));
+      if ($membership) {
+
+        if ($membership->active == 'true'){
+
+          $payment = Transaction::sale([
+            'amount' => $membership->price,
+            'paymentMethodNonce' => $request->getParam('nonce'),
+            'options' => [
+              'submitForSettlement' => true
+            ]
+          ]);
+
+
+          if ($payment->success) {
+
+            $user = $container->AuthHelper->getSessionUser();
+            $start = null;
+            if ($container->AuthHelper->checkPremium()) {
+              $start = $user->premium;
+            } else {
+              $start = date('Y-m-d');
+            }
+            $newPremium = date('Y-m-d', strtotime($start . ' + ' . $membership->days . ' days'));
+
+            $receipt = Payment::create([
+              'transaction' => $payment->transaction->id,
+              'user' => $user->id,
+              'previous' => $user->premium,
+              'new' => $newPremium,
+              'days' => $membership->days
+            ]);
+
+            $user->premium = $newPremium;
+            $user->save();
+
+            if ($receipt) {
+
+              $container->flash->addMessage('success-heading', $container->translator->trans('account.premium.thanks'));
+              $container->flash->addMessage('success', $container->translator->trans('account.premium.complete', [ '%date%' => date('d-m-Y', strtotime($newPremium)) ]));
+              return true;
+
+            } else {
+              Transaction::void($payment->transaction->id);
+            }
+
+          } else {
+            $container->flash->addMessage('error', $container->translator->trans('account.premium.noPayment'));
+            return false;
+          }
+
+        } else {
+          $container->flash->addMessage('error_plan', $container->translator->trans('account.premium.invalidPlan'));
+          return false;
+        }
+
+      } else {
+        $container->flash->addMessage('error_plan', $container->translator->trans('account.premium.invalidPlan'));
+        return false;
+      }
+
+    } else {
+      return false;
+    }
+
   }
 
   public function updateLanguage($request, $container) {

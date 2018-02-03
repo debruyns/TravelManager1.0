@@ -15,7 +15,8 @@ return [
       'currentPassword' => 'Huidig Wachtwoord',
       'newPassword' => 'Nieuw Wachtwoord',
       'confirmPassword' => 'Bevestig Wachtwoord',
-      'language' => 'Taal'
+      'language' => 'Taal',
+      'plan' => 'Lidmaatschap Periode'
 
     ],
 
@@ -32,7 +33,11 @@ return [
       'cancel'  => 'Annuleren',
       'recover' => 'Ophalen',
       'save' => 'Opslaan',
-      'signup' => 'Registreren'
+      'signup' => 'Registreren',
+      'buy' => 'Kopen',
+      'activate' => 'Inschakelen',
+      'deactivate' => 'Uitschakelen',
+      'create' => 'Aanmaken'
 
     ]
 

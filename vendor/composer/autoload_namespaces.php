@@ -9,4 +9,5 @@ return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
+    'Braintree' => array($vendorDir . '/braintree/braintree_php/lib'),
 );

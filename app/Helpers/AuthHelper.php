@@ -19,6 +19,25 @@ class AuthHelper {
     }
   }
 
+  public function checkPremium() {
+    $premiumStatus = $this->getSessionUser()->premium;
+    if (!empty($premiumStatus)) {
+      $now = strtotime(date('Y-m-d'));
+      $premium = strtotime($premiumStatus);
+      if ($premium >= $now) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  public function premiumDate() {
+    return date('d-m-Y', strtotime($this->getSessionUser()->premium));
+  }
+
   public function checkSession() {
     return isset($_SESSION['user_id']);
   }
@@ -340,7 +359,7 @@ class AuthHelper {
     $user = User::find($_SESSION['user_twofactor']);
     if ($user){
       $authenticator = new AuthenticatorMiddleware();
-      if ($authenticator->verifyCode($user->twofactor, $request->getParam('code'), 0)) {
+      if ($authenticator->verifyCode($user->twofactor, $request->getParam('code'), 1)) {
 
         unset($_SESSION['user_twofactor']);
         $_SESSION['user_id'] = $user->id;

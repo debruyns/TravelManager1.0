@@ -65,9 +65,14 @@ return [
       'wrongStatus' => 'Your account has been archived or suspended',
       'error' => 'Something went wrong! Please try again',
       'minChar' => 'This field must contain at least %number% characters',
+      'maxChar' => 'This field can contain a maximum of %number% characters',
       'match' => 'This field does not match your password',
       'invalidEmail' => 'This is not a valid email address',
-      'usedEmail' => 'An account already exists with this email address'
+      'usedEmail' => 'An account already exists with this email address',
+      'invalidDate' => 'This is not a valid date',
+      'pastDate' => 'The start date of a trip may not be in the past',
+      'pastStart' => 'The end date can not be in the past of the start date',
+      'invalid' => 'This field is not valid'
 
     ]
 

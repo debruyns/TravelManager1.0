@@ -65,9 +65,14 @@ return [
       'wrongStatus' => 'Uw account is gearchiveerd of geschorst',
       'error' => 'Er is iets fout gegaan! Probeer het opnieuw',
       'minChar' => 'Dit veld moet minstens %number% karakters bevatten',
+      'maxChar' => 'Dit veld mag maximaal %number% karakters bevatten',
       'match' => 'Dit veld komt niet overeen met uw wachtwoord',
       'invalidEmail' => 'Dit is geen geldig e-mailadres',
-      'usedEmail' => 'Er bestaat al een account met dit e-mailadres'
+      'usedEmail' => 'Er bestaat al een account met dit e-mailadres',
+      'invalidDate' => 'Dit is geen geldige datum',
+      'pastDate' => 'De begindatum van een trip mag niet in het verleden liggen',
+      'pastStart' => 'De einddatum mag niet in het verleden van de begindatum liggen',
+      'invalid' => 'Dit veld is niet geldig'
     ]
 
   ]

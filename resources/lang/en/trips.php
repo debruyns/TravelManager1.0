@@ -61,7 +61,8 @@ return [
       'namePlace' => 'Fill in a name of maximum 20 characters',
       'start' => 'Departure Date',
       'stop' => 'Return Date',
-      'datePlace' => 'dd/mm/yyyy'
+      'datePlace' => 'dd/mm/yyyy',
+      'success' => 'Your %name% trip has been successfully created'
 
     ]
 

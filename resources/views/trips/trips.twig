@@ -2,7 +2,9 @@
 
 {% block content %}
 
-<div class="card mt-5">
+{% include 'templates/message.twig' %}
+
+<div class="card mt-2">
 
   <div class="card-header">
     <span class="align-middle">{{ trans('trips.general.mytrips') }}</span>
@@ -51,7 +53,7 @@
                       {{ trans('trips.general.phase') }}: <span class="text-muted">{{ trans('trips.phase.' ~ trip.phase) }}</span>
 
                     </p>
-                    <a href="#" class="card-link">{{ trans('trips.general.manage') }}</a>
+                    <a href="{{ path_for('trips.manage', { id: trip.id }) }}" class="card-link">{{ trans('trips.general.manage') }}</a>
                   </div>
                 </div>
               </div>

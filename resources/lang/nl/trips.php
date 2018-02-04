@@ -61,7 +61,8 @@ return [
       'namePlace' => 'Vul een naam in van maximum 20 karakters',
       'start' => 'Datum Vertrek',
       'stop' => 'Datum Terugkomst',
-      'datePlace' => 'dd/mm/jjjj'
+      'datePlace' => 'dd/mm/jjjj',
+      'success' => 'Uw %name% trip is succesvol aangemaakt'
 
     ]
 

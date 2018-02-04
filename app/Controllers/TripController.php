@@ -20,7 +20,9 @@ class TripController extends Controller {
       'myshared' => $myShared
     ];
 
-    return $this->view->render($response, 'trips/trips.twig', $viewData);
+    //return $this->view->render($response, 'trips/trips.twig', $viewData);
+    echo urlencode('8');
+    die();
 
   }
 
@@ -39,8 +41,13 @@ class TripController extends Controller {
 
   public function postCreateTrip($request, $response) {
 
-    echo $request->getParam('type');
-    die();
+    $return = $this->TripHelper->createTrip($request, $this);
+
+    if ($return == true) {
+      return $response->withRedirect($this->router->pathFor('trips'));
+    } else {
+      return $response->withRedirect($this->router->pathFor('trips.create'));
+    }
 
   }
 

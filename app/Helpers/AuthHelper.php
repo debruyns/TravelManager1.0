@@ -20,12 +20,16 @@ class AuthHelper {
   }
 
   public function checkPremium() {
-    $premiumStatus = $this->getSessionUser()->premium;
-    if (!empty($premiumStatus)) {
-      $now = strtotime(date('Y-m-d'));
-      $premium = strtotime($premiumStatus);
-      if ($premium >= $now) {
-        return true;
+    if ($this->getSessionUser()) {
+      $premiumStatus = $this->getSessionUser()->premium;
+      if (!empty($premiumStatus)) {
+        $now = strtotime(date('Y-m-d'));
+        $premium = strtotime($premiumStatus);
+        if ($premium >= $now) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
@@ -35,7 +39,11 @@ class AuthHelper {
   }
 
   public function premiumDate() {
-    return date('d-m-Y', strtotime($this->getSessionUser()->premium));
+    if ($this->getSessionUser()) {
+      return date('d-m-Y', strtotime($this->getSessionUser()->premium));
+    } else {
+      return null;
+    }
   }
 
   public function checkSession() {

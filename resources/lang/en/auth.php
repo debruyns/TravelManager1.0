@@ -72,7 +72,10 @@ return [
       'invalidDate' => 'This is not a valid date',
       'pastDate' => 'The start date of a trip may not be in the past',
       'pastStart' => 'The end date can not be in the past of the start date',
-      'invalid' => 'This field is not valid'
+      'invalid' => 'This field is not valid',
+      'signInDisabled' => 'Due to an ongoing update it is not possible to sign in at the moment',
+      'signUpDisabled' => 'Due to an ongoing update it is not possible to sign up at the moment',
+      'invalidInvite' => 'Account creation is currently only possible for a selected test group'
 
     ]
 

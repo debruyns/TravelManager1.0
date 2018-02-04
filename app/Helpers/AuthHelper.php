@@ -4,12 +4,45 @@ namespace App\Helpers;
 
 use App\Models\User;
 use App\Models\Recovery;
+use App\Models\CTO;
+use App\Models\Invite;
 use App\Middleware\AuthenticatorMiddleware;
 use App\Mail\PasswordReset;
 use App\Mail\Activate;
 use DateTime;
 
 class AuthHelper {
+
+  public function getSignInEnabled() {
+    $cto_setting = CTO::where('setting', 'signin')->first();
+    if ($cto_setting) {
+      if ($cto_setting->value == 'enabled') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  public function getSignUpEnabled() {
+    $cto_setting = CTO::where('setting', 'signup')->first();
+    if ($cto_setting) {
+      return $cto_setting->value;
+    } else {
+      return 'disabled';
+    }
+  }
+
+  public function checkInviteValid($email) {
+    $invite = Invite::where('email', $email)->first();
+    if ($invite) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public function getSessionUser() {
     if (isset($_SESSION['user_id'])) {
@@ -108,41 +141,65 @@ class AuthHelper {
 
           if (strlen($password) >= 8) {
 
-            $unique = false;
-            $secret = null;
-            while ($unique === false) {
-              $secret = $this->generateRandomString();
-              $checkUnique = User::where('secret', $secret)->first();
-              if (!$checkUnique) {
-                $unique = true;
+            $signupEnabled = $this->getSignUpEnabled();
+            if ($signupEnabled != 'disabled') {
+
+              $allowSignUp = false;
+              if ($signupEnabled == 'enabled') {
+                $allowSignUp = true;
+              } elseif ($signupEnabled == 'invite') {
+                if ($this->checkInviteValid($email)) {
+                  $allowSignUp = true;
+                }
               }
-            }
 
-            $hash = password_hash($password, PASSWORD_BCRYPT);
+              if ($allowSignUp == true) {
 
-            $newUser = User::create([
-                        'firstname' => $firstname,
-                        'lastname' => $lastname,
-                        'email' => $email,
-                        'password' => $hash,
-                        'secret' => $secret,
-                        'language' => $container->config->get('app.locale'),
-                        'active' => 'false',
-                        'status' => 'normal',
-                        'last_login' => null,
-                        'premium' => null,
-                        'twofactor' => null
-                      ]);
+                $unique = false;
+                $secret = null;
+                while ($unique === false) {
+                  $secret = $this->generateRandomString();
+                  $checkUnique = User::where('secret', $secret)->first();
+                  if (!$checkUnique) {
+                    $unique = true;
+                  }
+                }
 
-            if ($newUser) {
-              $container->mail->to($newUser->email, $newUser->firstname." ".$newUser->lastname)->send(new Activate($container->translator, $newUser, $secret));
-              $container->flash->addMessage('success-heading', $container->translator->trans('auth.signup.successHeading'));
-              $container->flash->addMessage('success', $container->translator->trans('auth.signup.successMessage', [
-                '%email%' => $newUser->email
-              ]));
-              $return_success = true;
+                $hash = password_hash($password, PASSWORD_BCRYPT);
+
+                $newUser = User::create([
+                            'firstname' => $firstname,
+                            'lastname' => $lastname,
+                            'email' => $email,
+                            'password' => $hash,
+                            'secret' => $secret,
+                            'language' => $container->config->get('app.locale'),
+                            'active' => 'false',
+                            'status' => 'normal',
+                            'last_login' => null,
+                            'premium' => null,
+                            'twofactor' => null
+                          ]);
+
+                if ($newUser) {
+                  $container->mail->to($newUser->email, $newUser->firstname." ".$newUser->lastname)->send(new Activate($container->translator, $newUser, $secret));
+                  $container->flash->addMessage('success-heading', $container->translator->trans('auth.signup.successHeading'));
+                  $container->flash->addMessage('success', $container->translator->trans('auth.signup.successMessage', [
+                    '%email%' => $newUser->email
+                  ]));
+                  $return_success = true;
+                } else {
+                  $container->flash->addMessage('error', $container->translator->trans('auth.validation.error'));
+                }
+
+              } else {
+                $return_general = $container->translator->trans('auth.validation.invalidInvite');
+                $return_success = false;
+              }
+
             } else {
-              $container->flash->addMessage('error', $container->translator->trans('auth.validation.error'));
+              $return_general = $container->translator->trans('auth.validation.signUpDisabled');
+              $return_success = false;
             }
 
           } else {
@@ -416,21 +473,29 @@ class AuthHelper {
 
             if ($user->status == 'normal') {
 
-              unset($_SESSION['user_language']);
-              unset($_SESSION['user_id']);
-              unset($_SESSION['user_twofactor']);
+              $signInEnabled = $this->getSignInEnabled();
+              if ($signInEnabled == true) {
 
-              $_SESSION['user_language'] = $user->language;
-              $return_success = true;
+                unset($_SESSION['user_language']);
+                unset($_SESSION['user_id']);
+                unset($_SESSION['user_twofactor']);
 
-              if (!empty($user->twofactor)) {
-                $_SESSION['user_twofactor'] = true;
-                $return_twofactor = true;
+                $_SESSION['user_language'] = $user->language;
+                $return_success = true;
+
+                if (!empty($user->twofactor)) {
+                  $_SESSION['user_twofactor'] = true;
+                  $return_twofactor = true;
+                } else {
+                  $_SESSION['user_id'] = $user->id;
+                  $return_twofactor = false;
+                  $user->last_login = Date('Y-m-d H:i:s');
+                  $user->save();
+                }
+
               } else {
-                $_SESSION['user_id'] = $user->id;
-                $return_twofactor = false;
-                $user->last_login = Date('Y-m-d H:i:s');
-                $user->save();
+                $return_success = false;
+                $return_general = $container->translator->trans('auth.validation.signInDisabled');
               }
 
             } else {

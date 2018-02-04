@@ -20,9 +20,7 @@ class TripController extends Controller {
       'myshared' => $myShared
     ];
 
-    //return $this->view->render($response, 'trips/trips.twig', $viewData);
-    echo urlencode('8');
-    die();
+    return $this->view->render($response, 'trips/trips.twig', $viewData);
 
   }
 

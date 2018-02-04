@@ -146,6 +146,9 @@ class TripHelper {
         $trip->shared = false;
       }
 
+      // Add Identifier
+      $trip->identifier = 'CTO-'.strtoupper(substr(md5($user->id), 0, 5)).'-'.(($trip->id*5)+25879);
+
       // Add user to trip
       $trip->user = $user;
 
@@ -184,6 +187,9 @@ class TripHelper {
       $owner = User::find($myshare->owner);
       if ($owner) {
         $myshare->owner = $owner;
+
+        // Add Identifier
+        $myshare->identifier = 'CTO-'.strtoupper(substr(md5($owner->id), 0, 5)).'-'.(($myshare->id*5)+25879);
       }
 
     }

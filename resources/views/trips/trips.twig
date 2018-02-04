@@ -53,7 +53,7 @@
                       {{ trans('trips.general.phase') }}: <span class="text-muted">{{ trans('trips.phase.' ~ trip.phase) }}</span>
 
                     </p>
-                    <a href="{{ path_for('trips.manage', { id: trip.id }) }}" class="card-link">{{ trans('trips.general.manage') }}</a>
+                    <a href="{{ path_for('trips.manage', { id: trip.identifier }) }}" class="card-link">{{ trans('trips.general.manage') }}</a>
                   </div>
                 </div>
               </div>
@@ -117,9 +117,9 @@
 
                     </p>
                     {% if trip.readonly %}
-                      <a href="#" class="card-link">{{ trans('trips.general.view') }}</a>
+                      <a href="{{ path_for('trips.manage', { id: trip.identifier }) }}" class="card-link">{{ trans('trips.general.view') }}</a>
                     {% else %}
-                      <a href="#" class="card-link">{{ trans('trips.general.manage') }}</a>
+                      <a href="{{ path_for('trips.manage', { id: trip.identifier }) }}" class="card-link">{{ trans('trips.general.manage') }}</a>
                     {% endif %}
                   </div>
                 </div>

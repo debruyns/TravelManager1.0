@@ -12,6 +12,7 @@ class AccountController extends Controller {
     $languages = $this->AccountHelper->getLanguages($this);
     $plans = $this->AccountHelper->getPlans($this);
     $twofactor = $this->AccountHelper->getTwofactor($this);
+    $premiumEnabled = $this->AccountHelper->getPremiumEnabled($this);
 
     $viewData = [
       'page' => [
@@ -19,6 +20,7 @@ class AccountController extends Controller {
       ],
       'languages' => $languages,
       'plans' => $plans,
+      'premiumEnabled' => $premiumEnabled,
       'twofactor' => $twofactor
     ];
 

@@ -72,7 +72,10 @@ return [
       'invalidDate' => 'Dit is geen geldige datum',
       'pastDate' => 'De begindatum van een trip mag niet in het verleden liggen',
       'pastStart' => 'De einddatum mag niet in het verleden van de begindatum liggen',
-      'invalid' => 'Dit veld is niet geldig'
+      'invalid' => 'Dit veld is niet geldig',
+      'signInDisabled' => 'Vanwege een lopende update is het momenteel niet mogelijk om in te loggen',
+      'signUpDisabled' => 'Vanwege een lopende update is het momenteel niet mogelijk om te registreren',
+      'invalidInvite' => 'Registratie is momenteel enkel mogelijk voor een geselecteerde test groep'
     ]
 
   ]

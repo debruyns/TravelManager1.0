@@ -6,11 +6,25 @@ use App\Models\User;
 use App\Models\Language;
 use App\Models\Membership;
 use App\Models\Payment;
+use App\Models\CTO;
 use App\Middleware\AuthenticatorMiddleware;
 use Braintree\Transaction;
 use DateTime;
 
 class AccountHelper {
+
+  public function getPremiumEnabled($container) {
+    $cto_setting = CTO::where('setting', 'premium')->first();
+    if ($cto_setting) {
+      if ($cto_setting->value == 'enabled') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   public function getLanguages($container) {
     $return = "";

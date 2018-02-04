@@ -13,9 +13,18 @@ $app->group('', function() {
 
   // Sign Up Routes
   $this->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
+  $this->post('/auth/signup', 'AuthController:postSignUp');
 
   // Recovery Routes
-  $this->get('/auth/recovery', 'AuthController:getLogin')->setName('auth.recovery');
+  $this->get('/auth/recovery', 'AuthController:getRecovery')->setName('auth.recovery');
+  $this->post('/auth/recovery', 'AuthController:postRecovery');
+
+  // Reset Routes
+  $this->get('/auth/reset/{code}', 'AuthController:getReset')->setName('auth.reset');
+  $this->post('/auth/reset', 'AuthController:postReset')->setName('auth.reset.post');
+
+  // Activate Routes
+  $this->get('/auth/activate/{code}', 'AuthController:getActivate')->setName('auth.activate');
 
 })->add(new GuestRouteMiddleware($container));
 
@@ -27,6 +36,25 @@ $app->group('', function() {
 
   // Logout Routes
   $this->get('/auth/logout', 'AuthController:getLogout')->setName('auth.logout');
+
+  // Account Routes
+  $this->get('/account', 'AccountController:getAccount')->setName('account');
+  $this->post('/account/details', 'AccountController:postAccountDetails')->setName('account.details');
+  $this->post('/account/password', 'AccountController:postPassword')->setName('account.password');
+  $this->post('/account/language', 'AccountController:postLanguage')->setName('account.language');
+  $this->post('/account/premium', 'AccountController:postPremium')->setName('account.premium');
+  $this->post('/account/twofactor/activate', 'AccountController:postTwofactorActivate')->setName('account.twofactor.activate');
+  $this->post('/account/twofactor/deactivate', 'AccountController:postTwofactorDeactivate')->setName('account.twofactor.deactivate');
+
+  // Trip Routes
+  $this->get('/trips', 'TripController:getTrips')->setName('trips');
+  $this->get('/trips/create', 'TripController:getCreateTrip')->setName('trips.create');
+  $this->post('/trips/create', 'TripController:postCreateTrip');
+  $this->get('/trips/manage/{id}', 'TripController:getTrips')->setName('trips.manage');
+
+
+  // Payment Routes
+  $this->get('/payment/token', 'PaymentController:getToken')->setName('payment.token');
 
 })->add(new AuthRouteMiddleware($container));
 

@@ -16,7 +16,9 @@ return [
 
       'trips' => 'Trips',
       'messages' => 'Berichten',
-      'help' => 'Hulp'
+      'help' => 'Hulp',
+      'account' => 'Mijn Account',
+      'logout' => 'Uitloggen'
 
     ]
 

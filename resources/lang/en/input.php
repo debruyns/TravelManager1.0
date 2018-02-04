@@ -8,7 +8,15 @@ return [
 
       'email' => 'Email address',
       'password' => 'Password',
-      'code'  => 'Code'
+      'code'  => 'Code',
+      'confirm' => 'Confirm password',
+      'firstname' => 'Firstname',
+      'lastname' => 'Lastname',
+      'currentPassword' => 'Current Password',
+      'newPassword' => 'New Password',
+      'confirmPassword' => 'Confirm Password',
+      'language' => 'Language',
+      'plan' => 'Membership Period'
 
     ],
 
@@ -22,7 +30,14 @@ return [
 
       'signin' => 'Sign In',
       'verify'  => 'Verify',
-      'cancel'  => 'Cancel'
+      'cancel'  => 'Cancel',
+      'recover' => 'Recover',
+      'save' => 'Save',
+      'signup' => 'Sign Up',
+      'buy' => 'Buy',
+      'activate' => 'Enable',
+      'deactivate' => 'Disable',
+      'create' => 'Create'
 
     ]
 

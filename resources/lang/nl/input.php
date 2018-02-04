@@ -8,7 +8,15 @@ return [
 
       'email' => 'E-mailadres',
       'password' => 'Wachtwoord',
-      'code'  => 'Code'
+      'code'  => 'Code',
+      'confirm' => 'Bevestig wachtwoord',
+      'firstname' => 'Voornaam',
+      'lastname' => 'Achternaam',
+      'currentPassword' => 'Huidig Wachtwoord',
+      'newPassword' => 'Nieuw Wachtwoord',
+      'confirmPassword' => 'Bevestig Wachtwoord',
+      'language' => 'Taal',
+      'plan' => 'Lidmaatschap Periode'
 
     ],
 
@@ -22,7 +30,14 @@ return [
 
       'signin' => 'Inloggen',
       'verify'  => 'Controleren',
-      'cancel'  => 'Annuleren'
+      'cancel'  => 'Annuleren',
+      'recover' => 'Ophalen',
+      'save' => 'Opslaan',
+      'signup' => 'Registreren',
+      'buy' => 'Kopen',
+      'activate' => 'Inschakelen',
+      'deactivate' => 'Uitschakelen',
+      'create' => 'Aanmaken'
 
     ]
 

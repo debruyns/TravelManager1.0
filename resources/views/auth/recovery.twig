@@ -1,0 +1,24 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<form class="form-auth" method="post" action="{{ path_for('auth.recovery') }}" autocomplete="off">
+
+  {% include 'templates/message.twig' %}
+
+  <h1 class="h3 mb-3 font-weight-normal">{{ trans('auth.recovery.header') }}</h1>
+
+  <div class="form-group">
+    <input type="text" name="email" class="form-control f-no-border {{ flash.getMessage('error_email') ? ' is-invalid' : '' }}" placeholder="{{ trans('input.label.email') }}" value="{{ flash.getMessage('success') ? '' : persistInput.email }}">
+    {% if flash.getMessage('error_email') %}
+      <small class="text-danger">{{ flash.getMessage('error_email') | first }}</small>
+    {% endif %}
+  </div>
+
+  <button class="btn btn-md btn-primary btn-block" type="submit">{{ trans('input.button.recover') }}</button>
+
+  {{ csrf.fields | raw }}
+
+</form>
+
+{% endblock %}

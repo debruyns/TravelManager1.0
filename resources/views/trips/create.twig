@@ -1,0 +1,70 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+{% include 'templates/message.twig' %}
+
+<div class="card mt-2 mx-auto" style="width: 60%;">
+
+  <div class="card-header">{{ trans('trips.create.title') }}</div>
+
+  <div class="card-body">
+
+    <form method="post" action="{{ path_for('trips.create') }}" autocomplete="off">
+
+      <div class="form-group">
+        <label for="name">{{ trans('trips.create.name') }}</label>
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_name') ? ' is-invalid' : '' }}" name="name" maxlength="20" placeholder="{{ trans('trips.create.namePlace') }}" value="{{ persistInput.name }}">
+        {% if flash.getMessage('error_name') %}
+          <small class="text-danger">{{ flash.getMessage('error_name') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="start">{{ trans('trips.create.start') }}</label>
+        <input type="text" class="form-control f-no-border date-format {{ flash.getMessage('error_start') ? ' is-invalid' : '' }}" name="start" placeholder="{{ trans('trips.create.datePlace') }}" value="{{ persistInput.start }}">
+        {% if flash.getMessage('error_start') %}
+          <small class="text-danger">{{ flash.getMessage('error_start') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="stop">{{ trans('trips.create.stop') }}</label>
+        <input type="text" class="form-control f-no-border date-format {{ flash.getMessage('error_stop') ? ' is-invalid' : '' }}" name="stop" placeholder="{{ trans('trips.create.datePlace') }}" value="{{ persistInput.stop }}">
+        {% if flash.getMessage('error_stop') %}
+          <small class="text-danger">{{ flash.getMessage('error_stop') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="type">{{ trans('trips.general.type') }}</label><br />
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="type" value="leisure" {{ persistInput.type == 'leisure' ? 'checked' : '' }}>
+            {{ trans('trips.type.leisure') }}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="type" value="business" {{ persistInput.type == 'business' ? 'checked' : '' }}>
+            {{ trans('trips.type.business') }}
+          </label>
+        </div>
+        {% if flash.getMessage('error_type') %}
+          <small class="text-danger d-block">{{ flash.getMessage('error_type') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="text-center mt-5">
+        <button class="btn btn-primary" type="submit">{{ trans('input.button.create') }}</button>
+      </div>
+
+      {{ csrf.fields | raw }}
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

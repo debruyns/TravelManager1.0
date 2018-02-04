@@ -6,8 +6,9 @@ use Slim\Views\Twig as View;
 
 class HomeController extends Controller {
 
-    public function index($request, $response) {
-        return $this->view->render($response, 'dashboard.twig');
+    public function getIndex($request, $response) {
+        //return $this->view->render($response, 'dashboard.twig');
+        return $response->withRedirect($this->router->pathFor('auth.signin'));
     }
 
 }

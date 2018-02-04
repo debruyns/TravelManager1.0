@@ -11,6 +11,7 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -50,6 +51,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         array (
             'FastRoute\\' => 10,
         ),
+        'E' => 
+        array (
+            'Egulias\\EmailValidator\\' => 23,
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Inflector\\' => 26,
@@ -57,6 +62,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         'C' => 
         array (
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'Braintree\\' => 10,
         ),
         'A' => 
         array (
@@ -137,6 +146,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
+        'Egulias\\EmailValidator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+        ),
         'Doctrine\\Common\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
@@ -144,6 +157,10 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Braintree\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
         ),
         'App\\' => 
         array (
@@ -164,6 +181,20 @@ class ComposerStaticInit7e6caddf35ddbb6fd247cc60293b8469
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+        ),
+        'B' => 
+        array (
+            'Braintree' => 
+            array (
+                0 => __DIR__ . '/..' . '/braintree/braintree_php/lib',
             ),
         ),
     );

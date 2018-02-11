@@ -9,6 +9,29 @@ use DateTime;
 
 class TripHelper {
 
+  public function getTrip($id, $container) {
+
+    $identifier = ( ( (int) substr($id, 10) - 25879 ) / 5 );
+
+    $trip = Trip::find($identifier);
+
+    $sessionUser = $container->AuthHelper->getSessionUser();
+    if ($sessionUser) {
+
+      if ($trip->owner == $sessionUser->id) {
+        // Add Identifier
+        $trip->identifier = 'CTO-'.strtoupper(substr(md5($trip->owner), 0, 5)).'-'.(($trip->id*5)+25879);
+        return $trip;
+      } else {
+        return null;
+      }
+
+    } else {
+      return null;
+    }
+
+  }
+
   public function createTrip($request, $container) {
 
     $return_result = false;

@@ -64,6 +64,29 @@ return [
       'datePlace' => 'dd/mm/yyyy',
       'success' => 'Your %name% trip has been successfully created'
 
+    ],
+
+    'manage' => [
+
+      'notFound' => 'The requested trip can not be displayed'
+
+    ],
+
+    'menu' => [
+
+      'general' => 'General',
+      'travelers' => 'Travelers',
+      'accommodation' => 'Accommodation',
+      'transport' => 'Transport',
+      'budget' => 'Budget',
+      'planning' => 'Planning'
+
+    ],
+
+    'settings' => [
+
+      'header' => 'General Settings'
+
     ]
 
   ]

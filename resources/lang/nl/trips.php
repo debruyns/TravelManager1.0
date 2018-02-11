@@ -64,6 +64,29 @@ return [
       'datePlace' => 'dd/mm/jjjj',
       'success' => 'Uw %name% trip is succesvol aangemaakt'
 
+    ],
+
+    'manage' => [
+
+      'notFound' => 'De gevraagde trip kan niet worden weergegeven'
+
+    ],
+
+    'menu' => [
+
+      'general' => 'Algemeen',
+      'travelers' => 'Reizigers',
+      'accommodation' => 'Accommodatie',
+      'transport' => 'Vervoer',
+      'budget' => 'Budget',
+      'planning' => 'Planning'
+
+    ],
+
+    'settings' => [
+
+      'header' => 'Algemene Instellingen'
+
     ]
 
   ]

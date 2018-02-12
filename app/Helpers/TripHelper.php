@@ -18,10 +18,16 @@ class TripHelper {
     $sessionUser = $container->AuthHelper->getSessionUser();
     if ($sessionUser) {
 
+      $trip->formatStartDate = date('d/m/Y', strtotime($trip->start));
+      $trip->formatStopDate = date('d/m/Y', strtotime($trip->stop));
+
       if ($trip->owner == $sessionUser->id) {
+
         // Add Identifier
         $trip->identifier = 'CTO-'.strtoupper(substr(md5($trip->owner), 0, 5)).'-'.(($trip->id*5)+25879);
+        
         return $trip;
+
       } else {
         return null;
       }

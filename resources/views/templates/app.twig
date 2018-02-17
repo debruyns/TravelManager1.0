@@ -8,8 +8,9 @@
         <!-- Bootstrap Stylesheet -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="/css/daterange.css">
         <link rel="stylesheet" href="/css/style.css">
-        
+
     </head>
     <body>
 
@@ -34,12 +35,70 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/jquery-ui-i18n.min.js"></script>
+      <script src="/js/moment.js"></script>
+      <script src="/js/daterange.js"></script>
       <script src="/js/general.js"></script>
 
       <script>
-        $(document).ready(function() {
-          $.datepicker.setDefaults( $.datepicker.regional["{{ language.code }}"] );
-        });
+
+        // Date Range Selector
+        var configObject = {
+          autoClose: false,
+        	format: 'DD/MM/YYYY',
+        	separator: ' - ',
+        	language: '{{ language.code }}',
+        	startOfWeek: 'monday',
+        	getValue: function()
+        	{
+        		return $(this).val();
+        	},
+        	setValue: function(s)
+        	{
+        		if(!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val())
+        		{
+        			$(this).val(s);
+        		}
+        	},
+        	startDate: false,
+        	endDate: false,
+        	time: {
+        		enabled: false
+        	},
+        	minDays: 0,
+        	maxDays: 0,
+        	showShortcuts: false,
+        	customShortcuts : [],
+        	inline:false,
+        	container:'body',
+        	alwaysOpen:false,
+        	singleDate:false,
+        	lookBehind: false,
+        	batchMode: false,
+        	duration: 200,
+        	stickyMonths: true,
+        	dayDivAttrs: [],
+        	dayTdAttrs: [],
+        	applyBtnClass: '',
+        	singleMonth: false,
+        	hoveringTooltip: function(days, startTime, hoveringTime)
+        	{
+        		return days > 1 ? days + ' ' + lang('days') : '';
+        	},
+        	showTopbar: true,
+        	swapTime: false,
+        	selectForward: true,
+        	selectBackward: false,
+        	showWeekNumbers: false,
+        	getWeekNumber: function(date) //date will be the first day of a week
+        	{
+        		return moment(date).format('w');
+        	},
+        	monthSelect: false,
+        	yearSelect: false
+        };
+
+        $('.date-format').dateRangePicker(configObject);
+
       </script>
 
       {% block scripts %}{% endblock %}

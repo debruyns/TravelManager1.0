@@ -25,7 +25,7 @@ class TripHelper {
 
         // Add Identifier
         $trip->identifier = 'CTO-'.strtoupper(substr(md5($trip->owner), 0, 5)).'-'.(($trip->id*5)+25879);
-        
+
         return $trip;
 
       } else {
@@ -42,80 +42,85 @@ class TripHelper {
 
     $return_result = false;
     $error_name = null;
-    $error_start = null;
-    $error_stop = null;
+    $error_period = null;
     $error_type = null;
 
     $name = $request->getParam('name');
-    $start = $request->getParam('start');
-    $stop = $request->getParam('stop');
+    $period = $request->getParam('period');
     $type = $request->getParam('type');
 
-    if (!empty($name) && !empty($start) && !empty($stop) && !empty($type)) {
+    if (!empty($name) && !empty($period) && !empty($type)) {
 
       if (strlen($name) <= 20) {
 
-        $start_split = explode('/', $start);
-        if (count($start_split) == 3) {
+        $period_split = explode(' - ', $period);
+        if (count($period_split) == 2){
 
-          if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
+          $start_split = explode('/', $period_split[0]);
+          if (count($start_split) == 3) {
 
-            $stop_split = explode('/', $stop);
-            if (count($stop_split) == 3) {
+            if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
 
-              if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
+              $stop_split = explode('/', $period_split[1]);
+              if (count($stop_split) == 3) {
 
-                if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
+                if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
 
-                  if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
+                  if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
 
-                    if ($type == 'leisure' || $type == 'business') {
+                    if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
 
-                      $user = $container->AuthHelper->getSessionUser();
+                      if ($type == 'leisure' || $type == 'business') {
 
-                      $new_trip = Trip::create([
-                                    'name' => $name,
-                                    'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
-                                    'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
-                                    'active' => 'true',
-                                    'owner' => $user->id,
-                                    'type' => $type,
-                                    'phase' => 1
-                                  ]);
+                        $user = $container->AuthHelper->getSessionUser();
 
-                      if ($new_trip) {
-                        $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
-                        return true;
+                        $new_trip = Trip::create([
+                                      'name' => $name,
+                                      'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
+                                      'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
+                                      'active' => 'true',
+                                      'owner' => $user->id,
+                                      'type' => $type,
+                                      'phase' => 1
+                                    ]);
+
+                        if ($new_trip) {
+                          $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
+                          return true;
+                        } else {
+                          $error_general = $container->translator->trans('auth.validation.error');
+                        }
+
                       } else {
-                        $error_general = $container->translator->trans('auth.validation.error');
+                        $error_type = $container->translator->trans('auth.validation.invalid');
                       }
 
                     } else {
-                      $error_type = $container->translator->trans('auth.validation.invalid');
+                      $error_period = $container->translator->trans('auth.validation.pastStart');
                     }
 
                   } else {
-                    $error_stop = $container->translator->trans('auth.validation.pastStart');
+                    $error_period = $container->translator->trans('auth.validation.pastDate');
                   }
 
                 } else {
-                  $error_start = $container->translator->trans('auth.validation.pastDate');
+                  $error_period = $container->translator->trans('auth.validation.invalidDate');
                 }
 
               } else {
-                $error_stop = $container->translator->trans('auth.validation.invalidDate');
+                $error_period = $container->translator->trans('auth.validation.invalidDate');
               }
 
             } else {
-              $error_stop = $container->translator->trans('auth.validation.invalidDate');
+              $error_period = $container->translator->trans('auth.validation.invalidDate');
             }
 
           } else {
-            $error_start = $container->translator->trans('auth.validation.invalidDate');
+            $error_period = $container->translator->trans('auth.validation.invalidDate');
           }
 
         } else {
-          $error_start = $container->translator->trans('auth.validation.invalidDate');
+          $error_period = $container->translator->trans('auth.validation.invalidDate');
         }
 
       } else {
@@ -126,11 +131,8 @@ class TripHelper {
       if (empty($name)) {
         $error_name = $container->translator->trans('auth.validation.required');
       }
-      if (empty($start)) {
-        $error_start = $container->translator->trans('auth.validation.required');
-      }
-      if (empty($stop)) {
-        $error_stop = $container->translator->trans('auth.validation.required');
+      if (empty($period)) {
+        $error_period = $container->translator->trans('auth.validation.required');
       }
       if (empty($type)) {
         $error_type = $container->translator->trans('auth.validation.required');
@@ -141,12 +143,8 @@ class TripHelper {
       $container->flash->addMessage('error_name', $error_name);
     }
 
-    if ($error_start) {
-      $container->flash->addMessage('error_start', $error_start);
-    }
-
-    if ($error_stop) {
-      $container->flash->addMessage('error_stop', $error_stop);
+    if ($error_period) {
+      $container->flash->addMessage('error_period', $error_period);
     }
 
     if ($error_type) {

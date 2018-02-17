@@ -59,9 +59,9 @@ return [
       'title' => 'Nieuwe trip aanmaken',
       'name' => 'Trip Naam',
       'namePlace' => 'Vul een naam in van maximum 20 karakters',
-      'start' => 'Datum Vertrek',
-      'stop' => 'Datum Terugkomst',
+      'period' => 'Trip Periode',
       'datePlace' => 'dd/mm/jjjj',
+      'rangePlace' => 'dd/mm/jjjj - dd/mm/jjjj',
       'success' => 'Uw %name% trip is succesvol aangemaakt'
 
     ],

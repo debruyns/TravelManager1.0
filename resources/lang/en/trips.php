@@ -59,9 +59,9 @@ return [
       'title' => 'Create a new trip',
       'name' => 'Trip Name',
       'namePlace' => 'Fill in a name of maximum 20 characters',
-      'start' => 'Departure Date',
-      'stop' => 'Return Date',
+      'period' => 'Trip Period',
       'datePlace' => 'dd/mm/yyyy',
+      'rangePlace' => 'dd/mm/yyyy - dd/mm/yyyy',
       'success' => 'Your %name% trip has been successfully created'
 
     ],

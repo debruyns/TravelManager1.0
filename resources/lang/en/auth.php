@@ -69,7 +69,7 @@ return [
       'match' => 'This field does not match your password',
       'invalidEmail' => 'This is not a valid email address',
       'usedEmail' => 'An account already exists with this email address',
-      'invalidDate' => 'This is not a valid date',
+      'invalidDate' => 'This is not a valid date range',
       'pastDate' => 'The start date of a trip may not be in the past',
       'pastStart' => 'The end date can not be in the past of the start date',
       'invalid' => 'This field is not valid',

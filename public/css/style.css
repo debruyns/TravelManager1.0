@@ -83,3 +83,11 @@ body {
 div.ui-datepicker {
   font-size: 10pt;
 }
+
+.row-margin {
+  margin-bottom: 15px;
+}
+
+.row-margin:last-of-type {
+  margin-bottom: 0px;
+}

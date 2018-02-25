@@ -87,6 +87,14 @@ return [
 
       'header' => 'General Settings'
 
+    ],
+
+    'error' => [
+
+      'notFound' => 'Trip does not exist',
+      'auth' => 'You do not have permission to change this trip,
+      ''
+
     ]
 
   ]

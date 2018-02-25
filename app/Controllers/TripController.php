@@ -71,4 +71,13 @@ class TripController extends Controller {
 
   }
 
+  public function updateGeneral($request, $response) {
+
+    $this->TripHelper->updateGeneral($request, $this);
+    return $response->withRedirect($this->router->pathFor('trips.manage', [
+      'id' => $request->getParam('identifier')
+    ]));
+
+  }
+
 }

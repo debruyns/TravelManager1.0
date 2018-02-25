@@ -9,6 +9,83 @@ use DateTime;
 
 class TripHelper {
 
+  public function updateGeneral($request, $container) {
+
+    $error_name = null;
+    $error_period = null;
+    $error_type = null;
+    $error_phase = null;
+    $error_general = null;
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $shared = Shared::where('trip', $trip->id, 'user', $user->id, 'readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($trip->owner == $user->id || $shared == true) {
+
+        $name = $request->getParam('name');
+        $period = $request->getParam('period');
+        $type = $request->getParam('type');
+        $phase = $request->getParam('phase');
+
+        if (!empty($name) && !empty($period) && !empty($type) && !empty($phase)) {
+
+          
+
+        } else {
+          if (empty($name)) {
+            $error_name = $container->translator->trans('auth.validation.required');
+          }
+          if (empty($period)) {
+            $error_period = $container->translator->trans('auth.validation.required');
+          }
+          if (empty($type)) {
+            $error_type = $container->translator->trans('auth.validation.required');
+          }
+          if (empty($phase)) {
+            $error_phase = $container->translator->trans('auth.validation.required');
+          }
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.auth');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_name) {
+      $container->flash->addMessage('error_name', $error_name);
+    }
+
+    if ($error_period) {
+      $container->flash->addMessage('error_period', $error_period);
+    }
+
+    if ($error_type) {
+      $container->flash->addMessage('error_type', $error_type);
+    }
+
+    if ($error_phase) {
+      $container->flash->addMessage('error_phase', $error_type);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+  }
+
   public function getTrip($id, $container) {
 
     $identifier = ( ( (int) substr($id, 10) - 25879 ) / 5 );
@@ -20,6 +97,7 @@ class TripHelper {
 
       $trip->formatStartDate = date('d/m/Y', strtotime($trip->start));
       $trip->formatStopDate = date('d/m/Y', strtotime($trip->stop));
+      $trip->formatPeriod = $trip->formatStartDate.' - '.$trip->formatStopDate;
 
       if ($trip->owner == $sessionUser->id) {
 

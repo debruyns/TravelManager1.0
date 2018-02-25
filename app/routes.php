@@ -51,6 +51,7 @@ $app->group('', function() {
   $this->get('/trips/create', 'TripController:getCreateTrip')->setName('trips.create');
   $this->post('/trips/create', 'TripController:postCreateTrip');
   $this->get('/trips/manage/{id}', 'TripController:manageTrip')->setName('trips.manage');
+  $this->post('/trips/manage/general', 'TripController:updateGeneral')->setName('trips.manage.general');
 
 
   // Payment Routes

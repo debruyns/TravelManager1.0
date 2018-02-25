@@ -8,29 +8,58 @@
   <div class="card-header">{{ trans('trips.settings.header') }}</div>
   <div class="card-body">
 
-    <form method="post">
+    {% include 'templates/message.twig' %}
+
+    <form method="post" action="{{ path_for('trips.manage.general') }}" autocomplete="off">
 
       <div class="form-group">
-        <label>Trip Name</label>
-        <input type="text" class="form-control f-no-border" />
+        <label for="name">{{ trans('trips.create.name') }}</label>
+        <input type="text" name="name" class="form-control f-no-border {{ flash.getMessage('error_name') ? ' is-invalid' : '' }}" value="{{ persistInput.name ? persistInput.name : trip.name }}" />
+        {% if flash.getMessage('error_name') %}
+          <small class="text-danger">{{ flash.getMessage('error_name') | first }}</small>
+        {% endif %}
       </div>
 
       <div class="form-group">
-        <label>Departure Date</label>
-        <input type="text" class="form-control f-no-border date-format" />
+        <label for="period">{{ trans('trips.create.period') }}</label>
+        <input type="text" name="period" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" value="{{ persistInput.period ? persistInput.period : trip.formatPeriod }}" />
+        {% if flash.getMessage('error_period') %}
+          <small class="text-danger">{{ flash.getMessage('error_period') | first }}</small>
+        {% endif %}
       </div>
 
       <div class="form-group">
-        <label>Return Date</label>
-        <input type="text" class="form-control f-no-border" />
-      </div>
-
-      <div class="form-group">
-        <label>Phase</label>
-        <select class="form-control f-no-border">
-          <option>Planning</option>
+        <label for="type">{{ trans('trips.general.type') }}</label>
+        <select name="type" class="form-control f-no-border {{ flash.getMessage('error_type') ? ' is-invalid' : '' }}">
+          <option value="leisure" {{ trip.type == 'leisure' ? 'selected="selected"' : '' }}>{{ trans('trips.type.leisure') }}</option>
+          <option value="business" {{ trip.type == 'business' ? 'selected="selected"' : '' }}>{{ trans('trips.type.business') }}</option>
         </select>
+        {% if flash.getMessage('error_type') %}
+          <small class="text-danger">{{ flash.getMessage('error_type') | first }}</small>
+        {% endif %}
       </div>
+
+      <div class="form-group">
+        <label for="phase">{{ trans('trips.general.phase') }}</label>
+        <select name="phase" class="form-control f-no-border {{ flash.getMessage('error_phase') ? ' is-invalid' : '' }}">
+          <option value="1" {{ trip.phase == '1' ? 'selected="selected"' : '' }}>{{ trans('trips.phase.1') }}</option>
+          <option value="2" {{ trip.phase == '2' ? 'selected="selected"' : '' }}>{{ trans('trips.phase.2') }}</option>
+          <option value="3" {{ trip.phase == '3' ? 'selected="selected"' : '' }}>{{ trans('trips.phase.3') }}</option>
+          <option value="4" {{ trip.phase == '4' ? 'selected="selected"' : '' }}>{{ trans('trips.phase.4') }}</option>
+          <option value="5" {{ trip.phase == '5' ? 'selected="selected"' : '' }}>{{ trans('trips.phase.5') }}</option>
+        </select>
+        {% if flash.getMessage('error_phase') %}
+          <small class="text-danger">{{ flash.getMessage('error_phase') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="text-center mt-5">
+        <button class="btn btn-primary" type="submit">{{ trans('input.button.save') }}</button>
+      </div>
+
+      <input type="hidden" name="identifier" value="{{ trip.identifier }}">
+
+      {{ csrf.fields | raw }}
 
     </form>
 

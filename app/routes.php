@@ -52,6 +52,10 @@ $app->group('', function() {
   $this->post('/trips/create', 'TripController:postCreateTrip');
   $this->get('/trips/manage/{id}', 'TripController:manageTrip')->setName('trips.manage');
   $this->post('/trips/manage/general', 'TripController:updateGeneral')->setName('trips.manage.general');
+  $this->get('/trips/manage/travelers/{id}', 'TripController:manageTravelers')->setName('trips.travelers');
+  $this->get('/trips/manage/travelers/edit/{id}', 'TripController:editTraveler')->setName('trips.travelers.edit');
+  $this->get('/trips/manage/travelers/delete/{id}', 'TripController:deleteTraveler')->setName('trips.travelers.delete');
+  $this->get('/trips/manage/travelers/create/{id}', 'TripController:createTraveler')->setName('trips.travelers.create');
 
 
   // Payment Routes

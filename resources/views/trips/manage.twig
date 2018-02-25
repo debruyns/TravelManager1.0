@@ -14,7 +14,7 @@
 
       <div class="form-group">
         <label for="name">{{ trans('trips.create.name') }}</label>
-        <input type="text" name="name" class="form-control f-no-border {{ flash.getMessage('error_name') ? ' is-invalid' : '' }}" value="{{ persistInput.name ? persistInput.name : trip.name }}" />
+        <input type="text" name="name" maxlength="20" class="form-control f-no-border {{ flash.getMessage('error_name') ? ' is-invalid' : '' }}" value="{{ persistInput.name ? persistInput.name : trip.name }}" />
         {% if flash.getMessage('error_name') %}
           <small class="text-danger">{{ flash.getMessage('error_name') | first }}</small>
         {% endif %}
@@ -22,7 +22,7 @@
 
       <div class="form-group">
         <label for="period">{{ trans('trips.create.period') }}</label>
-        <input type="text" name="period" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" value="{{ persistInput.period ? persistInput.period : trip.formatPeriod }}" />
+        <input type="text" maxlength="23" name="period" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" value="{{ persistInput.period ? persistInput.period : trip.formatPeriod }}" />
         {% if flash.getMessage('error_period') %}
           <small class="text-danger">{{ flash.getMessage('error_period') | first }}</small>
         {% endif %}

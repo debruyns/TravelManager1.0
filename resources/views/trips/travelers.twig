@@ -1,0 +1,50 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+{% include 'templates/tripHeader.twig' %}
+
+<div class="card mx-auto" style="width: 70%;">
+  <div class="card-header">
+    <span class="align-middle">{{ trans('trips.travelers.header') }}</span>
+    <a href="{{ path_for('trips.travelers.create', { id: trip.identifier }) }}" class="btn btn-primary btn-sm float-right">{{ trans('trips.travelers.create') }}</a>
+    <div class="clearfix"></div>
+  </div>
+  <div class="card-body">
+
+    {% include 'templates/message.twig' %}
+
+    {% if travelers is not empty %}
+
+      <table class="table table-hover table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col" style="width: 35%;" class="pl-3">{{ trans('trips.travelers.firstname') }}</th>
+            <th scope="col" style="width: 35%;">{{ trans('trips.travelers.lastname') }}</th>
+            <th scope="col" style="width: 30%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for traveler in travelers %}
+            <tr>
+              <td class="align-middle pl-3">{{ traveler.firstname }}</td>
+              <td class="align-middle">{{ traveler.lastname }}</td>
+              <td class="text-right pr-3 py-2">
+                <a class="btn btn-secondary btn-sm" href="{{ path_for('trips.travelers.edit', { id: traveler.identifier }) }}">{{ trans('trips.travelers.edit') }}</a>
+                <a class="btn btn-secondary btn-sm ml-2" href="{{ path_for('trips.travelers.delete', { id: traveler.identifier }) }}">{{ trans('trips.travelers.delete') }}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+
+      <h6 class="text-muted">{{ trans('trips.travelers.nofound') }}</h6>
+
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

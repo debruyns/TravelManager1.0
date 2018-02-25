@@ -5,9 +5,24 @@ namespace App\Helpers;
 use App\Models\User;
 use App\Models\Trip;
 use App\Models\Shared;
+use App\Models\Traveler;
 use DateTime;
 
 class TripHelper {
+
+  public function getTravelers($id, $container) {
+
+    $travelers = Traveler::where('trip', $id)->orderBy('firstname', 'ASC')->get();
+
+    foreach ($travelers as &$traveler) {
+
+      $traveler->identifier = ( (int) $traveler->id * 55 );
+
+    }
+
+    return $travelers;
+
+  }
 
   public function updateGeneral($request, $container) {
 
@@ -21,7 +36,7 @@ class TripHelper {
     $trip = Trip::find($identifier);
     $user = $container->AuthHelper->getSessionUser();
 
-    $shared = Shared::where('trip', $trip->id, 'user', $user->id, 'readonly', 'false')->get();
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
     if (count($shared) > 0) {
       $shared = true;
     } else {
@@ -30,34 +45,113 @@ class TripHelper {
 
     if ($trip) {
 
-      if ($trip->owner == $user->id || $shared == true) {
+      if ($trip->active == 'true') {
 
-        $name = $request->getParam('name');
-        $period = $request->getParam('period');
-        $type = $request->getParam('type');
-        $phase = $request->getParam('phase');
+        if ($trip->owner == $user->id || $shared == true) {
 
-        if (!empty($name) && !empty($period) && !empty($type) && !empty($phase)) {
+          $name = $request->getParam('name');
+          $period = $request->getParam('period');
+          $type = $request->getParam('type');
+          $phase = $request->getParam('phase');
 
-          
+          if (!empty($name) && !empty($period) && !empty($type) && !empty($phase)) {
+
+            if (strlen($name) <= 20) {
+
+              $period_split = explode(' - ', $period);
+              if (count($period_split) == 2){
+
+                $start_split = explode('/', $period_split[0]);
+                if (count($start_split) == 3) {
+
+                  if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
+
+                    $stop_split = explode('/', $period_split[1]);
+                    if (count($stop_split) == 3) {
+
+                      if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
+
+                        if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
+
+                          if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
+
+                            if ($type == 'leisure' || $type == 'business') {
+
+                              if ($phase == '1' || $phase == '2' || $phase == '3' || $phase == '4' || $phase == '5') {
+
+                                $trip->name = $name;
+                                $trip->start = $start_split[2]."-".$start_split[1]."-".$start_split[0];
+                                $trip->stop = $stop_split[2]."-".$stop_split[1]."-".$stop_split[0];
+                                $trip->type = $type;
+                                $trip->phase = $phase;
+
+                                if ($trip->save()) {
+                                  $container->flash->addMessage('success', $container->translator->trans('trips.settings.success'));
+                                } else {
+                                  $error_general = $container->translator->trans('auth.validation.error');
+                                }
+
+                              } else {
+                                $error_phase = $container->translator->trans('auth.validation.invalid');
+                              }
+
+                            } else {
+                              $error_type = $container->translator->trans('auth.validation.invalid');
+                            }
+
+                          } else {
+                            $error_period = $container->translator->trans('auth.validation.pastStart');
+                          }
+
+                        } else {
+                          $error_period = $container->translator->trans('auth.validation.pastDate');
+                        }
+
+                      } else {
+                        $error_period = $container->translator->trans('auth.validation.invalidDate');
+                      }
+
+                    } else {
+                      $error_period = $container->translator->trans('auth.validation.invalidDate');
+                    }
+
+                  } else {
+                    $error_period = $container->translator->trans('auth.validation.invalidDate');
+                  }
+
+                } else {
+                  $error_period = $container->translator->trans('auth.validation.invalidDate');
+                }
+
+              } else {
+                $error_period = $container->translator->trans('auth.validation.invalidDate');
+              }
+
+            } else {
+              $error_name = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '20' ]);
+            }
+
+          } else {
+            if (empty($name)) {
+              $error_name = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($period)) {
+              $error_period = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($type)) {
+              $error_type = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($phase)) {
+              $error_phase = $container->translator->trans('auth.validation.required');
+            }
+          }
 
         } else {
-          if (empty($name)) {
-            $error_name = $container->translator->trans('auth.validation.required');
-          }
-          if (empty($period)) {
-            $error_period = $container->translator->trans('auth.validation.required');
-          }
-          if (empty($type)) {
-            $error_type = $container->translator->trans('auth.validation.required');
-          }
-          if (empty($phase)) {
-            $error_phase = $container->translator->trans('auth.validation.required');
-          }
+          $error_general = $container->translator->trans('trips.error.auth');
         }
 
       } else {
-        $error_general = $container->translator->trans('trips.error.auth');
+        $error_general = $container->translator->trans('trips.error.notActive');
       }
 
     } else {

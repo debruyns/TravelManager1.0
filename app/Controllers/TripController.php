@@ -80,4 +80,29 @@ class TripController extends Controller {
 
   }
 
+  // HTTP GET Travelers Trip
+  public function manageTravelers($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $travelers = $this->TripHelper->getTravelers($trip->id, $this);
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'active' => 'travelers',
+      'trip' => $trip,
+      'travelers' => $travelers
+    ];
+
+    return $this->view->render($response, 'trips/travelers.twig', $viewData);
+
+  }
+
 }

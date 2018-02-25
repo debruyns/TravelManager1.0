@@ -85,15 +85,28 @@ return [
 
     'settings' => [
 
-      'header' => 'General Settings'
+      'header' => 'General Settings',
+      'success' => 'The changes were saved successfully'
+
+    ],
+
+    'travelers' => [
+
+      'header' => 'Travelers',
+      'nofound' => 'There are no travelers for this trip yet',
+      'firstname' => 'Firstname',
+      'lastname' => 'Lastname',
+      'edit' => 'Edit',
+      'delete' => 'Delete',
+      'create' => 'Create new traveler'
 
     ],
 
     'error' => [
 
       'notFound' => 'Trip does not exist',
-      'auth' => 'You do not have permission to change this trip,
-      ''
+      'auth' => 'You do not have permission to change this trip',
+      'notActive' => 'You can only change trips that are active'
 
     ]
 

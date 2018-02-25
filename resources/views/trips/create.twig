@@ -22,7 +22,7 @@
 
       <div class="form-group">
         <label for="period">{{ trans('trips.create.period') }}</label>
-        <input type="text" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" name="period" placeholder="{{ trans('trips.create.rangePlace') }}" value="{{ persistInput.period }}">
+        <input type="text" maxlength="23" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" name="period" placeholder="{{ trans('trips.create.rangePlace') }}" value="{{ persistInput.period }}">
         {% if flash.getMessage('error_period') %}
           <small class="text-danger">{{ flash.getMessage('error_period') | first }}</small>
         {% endif %}

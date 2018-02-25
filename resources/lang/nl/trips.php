@@ -85,7 +85,29 @@ return [
 
     'settings' => [
 
-      'header' => 'Algemene Instellingen'
+      'header' => 'Algemene Instellingen',
+      'success' => 'De wijzigingen zijn succesvol opgeslagen'
+
+    ],
+
+
+    'travelers' => [
+
+      'header' => 'Reizigers',
+      'nofound' => 'Er bestaan nog geen reizigers voor deze trip',
+      'firstname' => 'Voornaam',
+      'lastname' => 'Achternaam',
+      'edit' => 'Wijzigen',
+      'delete' => 'Verwijderen',
+      'create' => 'Nieuwe reiziger aanmaken'
+
+    ],
+
+    'error' => [
+
+      'notFound' => 'Trip bestaat niet',
+      'auth' => 'U bent niet gemachtigd om deze trip te wijzigen',
+      'notActive' => 'U kunt alleen actieve trips wijzigen'
 
     ]
 

@@ -10,6 +10,108 @@ use DateTime;
 
 class TripHelper {
 
+  public function createTraveler($request, $container) {
+
+    $error_firstname = null;
+    $error_lastname = null;
+    $error_general = null;
+
+    $firstname = $request->getParam('firstname');
+    $lastname = $request->getParam('lastname');
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($trip->active == 'true') {
+
+        if ($trip->owner == $user->id || $shared == true) {
+
+          if (!empty($firstname) && !empty($lastname)) {
+
+            if (strlen($firstname) <= 40 && strlen($lastname) <= 40) {
+
+              $searchDuplicate = Traveler::where('trip', $trip->id)->where('firstname', $firstname)->where('lastname', $lastname)->get();
+              if (count($searchDuplicate) == 0) {
+
+                $traveler = Traveler::create([
+                  'trip' => $trip->id,
+                  'firstname' => $firstname,
+                  'lastname' => $lastname
+                ]);
+
+                if ($traveler) {
+
+                  $container->flash->addMessage('success', $container->translator->trans('trips.travelers.created'));
+                  return true;
+
+                } else {
+                  $error_general = $container->translator->trans('auth.validation.error');
+                }
+
+              } else {
+                $error_general = $container->translator->trans('trips.travelers.duplicate');
+              }
+
+            } else {
+
+              if (strlen($firstname) > 40) {
+                $error_firstname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+              }
+              if (strlen($lastname) > 40) {
+                $error_lastname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+              }
+
+            }
+
+          } else {
+
+            if (empty($firstname)) {
+              $error_firstname = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($lastname)) {
+              $error_lastname = $container->translator->trans('auth.validation.required');
+            }
+
+          }
+
+        } else {
+          $error_general = $container->translator->trans('trips.error.auth');
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.notActive');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_firstname) {
+      $container->flash->addMessage('error_firstname', $error_firstname);
+    }
+
+    if ($error_lastname) {
+      $container->flash->addMessage('error_lastname', $error_lastname);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+    return false;
+
+  }
+
   public function getTravelers($id, $container) {
 
     $travelers = Traveler::where('trip', $id)->orderBy('firstname', 'ASC')->get();

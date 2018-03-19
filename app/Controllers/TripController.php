@@ -50,7 +50,7 @@ class TripController extends Controller {
   }
 
   // HTTP GET Manage Trip
-  public function manageTrip($request, $response, $args) {
+  public function getManageTrip($request, $response, $args) {
 
     $trip = $this->TripHelper->getTrip($args['id'], $this);
 
@@ -71,7 +71,7 @@ class TripController extends Controller {
 
   }
 
-  public function updateGeneral($request, $response) {
+  public function postUpdateGeneral($request, $response) {
 
     $this->TripHelper->updateGeneral($request, $this);
     return $response->withRedirect($this->router->pathFor('trips.manage', [
@@ -81,7 +81,7 @@ class TripController extends Controller {
   }
 
   // HTTP GET Travelers Trip
-  public function manageTravelers($request, $response, $args) {
+  public function getManageTravelers($request, $response, $args) {
 
     $trip = $this->TripHelper->getTrip($args['id'], $this);
 
@@ -102,6 +102,44 @@ class TripController extends Controller {
     ];
 
     return $this->view->render($response, 'trips/travelers.twig', $viewData);
+
+  }
+
+  // HTTP GET Create Traveler
+  public function getCreateTraveler($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip
+    ];
+
+    return $this->view->render($response, 'trips/travelers/create.twig', $viewData);
+
+  }
+
+  // HTTP POST Create Traveler
+  public function postCreateTraveler($request, $response) {
+
+    $return = $this->TripHelper->createTraveler($request, $this);
+
+    if ($return == true) {
+      return $response->withRedirect($this->router->pathFor('trips.travelers', [
+        'id' => $request->getParam('identifier')
+      ]));
+    } else {
+      return $response->withRedirect($this->router->pathFor('trips.travelers.create', [
+        'id' => $request->getParam('identifier')
+      ]));
+    }
 
   }
 

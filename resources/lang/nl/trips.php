@@ -99,7 +99,11 @@ return [
       'lastname' => 'Achternaam',
       'edit' => 'Wijzigen',
       'delete' => 'Verwijderen',
-      'create' => 'Nieuwe reiziger aanmaken'
+      'create' => 'Nieuwe reiziger aanmaken',
+      'firstnamePlace' => 'Vul een voornaam in van maximum 40 karakters',
+      'lastnamePlace' => 'Vul een achternaam in van maximum 40 karakters',
+      'duplicate' => 'Er bestaat al een reiziger met exact dezelfde naam tijdens deze trip (Voeg iets extra toe om de namen van de reizigers uniek te houden)',
+      'created' => 'De nieuwe reiziger is aangemaakt'
 
     ],
 

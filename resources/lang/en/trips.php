@@ -98,7 +98,11 @@ return [
       'lastname' => 'Lastname',
       'edit' => 'Edit',
       'delete' => 'Delete',
-      'create' => 'Create new traveler'
+      'create' => 'Create new traveler',
+      'firstnamePlace' => 'Enter a firstname of up to 40 characters',
+      'lastnamePlace' => 'Enter a lastname of up to 40 characters',
+      'duplicate' => 'There is already a traveler with exactly the same name during this trip (Add something extra to keep the names of the travelers unique)',
+      'created' => 'The new traveler has been created'
 
     ],
 

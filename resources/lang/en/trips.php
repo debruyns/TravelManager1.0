@@ -102,7 +102,12 @@ return [
       'firstnamePlace' => 'Enter a firstname of up to 40 characters',
       'lastnamePlace' => 'Enter a lastname of up to 40 characters',
       'duplicate' => 'There is already a traveler with exactly the same name during this trip (Add something extra to keep the names of the travelers unique)',
-      'created' => 'The new traveler has been created'
+      'created' => 'The new traveler has been created',
+      'change' => 'Edit traveler',
+      'changed' => 'The traveler has been successfully changed',
+      'deleted' => 'The traveler has been successfully deleted',
+      'remove' => 'Delete traveler',
+      'confirmDelete' => 'Are you sure you want to delete this traveler?'
 
     ],
 

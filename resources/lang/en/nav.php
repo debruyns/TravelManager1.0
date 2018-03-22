@@ -15,7 +15,7 @@ return [
     'auth' => [
 
       'trips' => 'Trips',
-      'messages' => 'Messages',
+      'messages' => 'Notifications',
       'help' => 'Help',
       'account' => 'My Account',
       'logout' => 'Logout'

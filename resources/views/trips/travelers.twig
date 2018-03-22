@@ -30,8 +30,8 @@
               <td class="align-middle pl-3">{{ traveler.firstname }}</td>
               <td class="align-middle">{{ traveler.lastname }}</td>
               <td class="text-right pr-3 py-2">
-                <a class="btn btn-secondary btn-sm" href="{{ path_for('trips.travelers.edit', { id: traveler.identifier }) }}">{{ trans('trips.travelers.edit') }}</a>
-                <a class="btn btn-secondary btn-sm ml-2" href="{{ path_for('trips.travelers.delete', { id: traveler.identifier }) }}">{{ trans('trips.travelers.delete') }}</a>
+                <a class="btn btn-secondary btn-sm" href="{{ path_for('trips.travelers.edit', { id: trip.identifier, traveler: traveler.identifier }) }}">{{ trans('trips.travelers.edit') }}</a>
+                <a class="btn btn-secondary btn-sm ml-2" href="{{ path_for('trips.travelers.delete', { id: trip.identifier, traveler: traveler.identifier }) }}">{{ trans('trips.travelers.delete') }}</a>
               </td>
             </tr>
           {% endfor %}

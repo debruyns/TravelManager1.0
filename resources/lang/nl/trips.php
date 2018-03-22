@@ -103,7 +103,12 @@ return [
       'firstnamePlace' => 'Vul een voornaam in van maximum 40 karakters',
       'lastnamePlace' => 'Vul een achternaam in van maximum 40 karakters',
       'duplicate' => 'Er bestaat al een reiziger met exact dezelfde naam tijdens deze trip (Voeg iets extra toe om de namen van de reizigers uniek te houden)',
-      'created' => 'De nieuwe reiziger is aangemaakt'
+      'created' => 'De nieuwe reiziger is aangemaakt',
+      'change' => 'Reiziger wijzigen',
+      'changed' => 'De reiziger is succesvol gewijzigd',
+      'deleted' => 'De reiziger is succesvol verwijderd',
+      'remove' => 'Reiziger verwijderen',
+      'confirmDelete' => 'Bent u zeker dat u deze reiziger wil verwijderen?'
 
     ],
 

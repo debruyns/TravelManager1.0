@@ -53,8 +53,10 @@ $app->group('', function() {
   $this->get('/trips/manage/{id}', 'TripController:getManageTrip')->setName('trips.manage');
   $this->post('/trips/manage/general', 'TripController:postUpdateGeneral')->setName('trips.manage.general');
   $this->get('/trips/manage/travelers/{id}', 'TripController:getManageTravelers')->setName('trips.travelers');
-  $this->get('/trips/manage/travelers/edit/{id}', 'TripController:editTraveler')->setName('trips.travelers.edit');
-  $this->get('/trips/manage/travelers/delete/{id}', 'TripController:deleteTraveler')->setName('trips.travelers.delete');
+  $this->get('/trips/manage/travelers/edit/{id}/{traveler}', 'TripController:getEditTraveler')->setName('trips.travelers.edit');
+  $this->post('/trips/manage/travelers/edit', 'TripController:postEditTraveler')->setName('trips.travelers.edit.post');
+  $this->get('/trips/manage/travelers/delete/{id}/{traveler}', 'TripController:getDeleteTraveler')->setName('trips.travelers.delete');
+  $this->post('/trips/manage/travelers/delete', 'TripController:postDeleteTraveler')->setName('trips.travelers.delete.post');
   $this->get('/trips/manage/travelers/create/{id}', 'TripController:getCreateTraveler')->setName('trips.travelers.create');
   $this->post('/trips/manage/travelers/create', 'TripController:postCreateTraveler')->setName('trips.travelers.create.post');
 

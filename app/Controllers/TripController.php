@@ -143,4 +143,96 @@ class TripController extends Controller {
 
   }
 
+  // HTTP GET Edit Traveler
+  public function getEditTraveler($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $traveler = $this->TripHelper->getTraveler($args['traveler'], $trip->id, $this);
+    if (!$traveler) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip,
+      'traveler' => $traveler
+    ];
+
+    return $this->view->render($response, 'trips/travelers/edit.twig', $viewData);
+
+  }
+
+  // HTTP POST Edit Traveler
+  public function postEditTraveler($request, $response) {
+
+    $return = $this->TripHelper->editTraveler($request, $this);
+
+    if ($return == true) {
+      return $response->withRedirect($this->router->pathFor('trips.travelers', [
+        'id' => $request->getParam('identifier')
+      ]));
+    } else {
+      return $response->withRedirect($this->router->pathFor('trips.travelers.edit', [
+        'id' => $request->getParam('identifier'),
+        'traveler' => $request->getParam('traveler')
+      ]));
+    }
+
+  }
+
+  // HTTP GET Delete Traveler
+  public function getDeleteTraveler($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $traveler = $this->TripHelper->getTraveler($args['traveler'], $trip->id, $this);
+    if (!$traveler) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip,
+      'traveler' => $traveler
+    ];
+
+    return $this->view->render($response, 'trips/travelers/delete.twig', $viewData);
+
+  }
+
+  // HTTP POST Delete Traveler
+  public function postDeleteTraveler($request, $response) {
+
+    $return = $this->TripHelper->deleteTraveler($request, $this);
+
+    if ($return == true) {
+      return $response->withRedirect($this->router->pathFor('trips.travelers', [
+        'id' => $request->getParam('identifier')
+      ]));
+    } else {
+      return $response->withRedirect($this->router->pathFor('trips.travelers.edit', [
+        'id' => $request->getParam('identifier'),
+        'traveler' => $request->getParam('traveler')
+      ]));
+    }
+
+  }
+
 }

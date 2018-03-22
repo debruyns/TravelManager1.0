@@ -37,7 +37,8 @@ return [
       'buy' => 'Kopen',
       'activate' => 'Inschakelen',
       'deactivate' => 'Uitschakelen',
-      'create' => 'Aanmaken'
+      'create' => 'Aanmaken',
+      'delete' => 'Verwijderen'
 
     ]
 

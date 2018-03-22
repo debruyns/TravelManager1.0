@@ -37,7 +37,8 @@ return [
       'buy' => 'Buy',
       'activate' => 'Enable',
       'deactivate' => 'Disable',
-      'create' => 'Create'
+      'create' => 'Create',
+      'delete' => 'Delete'
 
     ]
 

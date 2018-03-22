@@ -1,0 +1,43 @@
+<h5 class="text-center">{{ trip.name }}</h5>
+
+<div class="mt-4 text-center mb-4">
+  <div class="btn-group mx-auto">
+
+    {% if active == 'general' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="{{ path_for('trips.manage', { id: trip.identifier }) }}">{{ trans('trips.menu.general') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="{{ path_for('trips.manage', { id: trip.identifier }) }}">{{ trans('trips.menu.general') }}</a>
+    {% endif %}
+
+    {% if active == 'travelers' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="{{ path_for('trips.travelers', { id: trip.identifier }) }}">{{ trans('trips.menu.travelers') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="{{ path_for('trips.travelers', { id: trip.identifier }) }}">{{ trans('trips.menu.travelers') }}</a>
+    {% endif %}
+
+    {% if active == 'accommodation' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="#">{{ trans('trips.menu.accommodation') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="#">{{ trans('trips.menu.accommodation') }}</a>
+    {% endif %}
+
+    {% if active == 'transport' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="#">{{ trans('trips.menu.transport') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="#">{{ trans('trips.menu.transport') }}</a>
+    {% endif %}
+
+    {% if active == 'budget' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="#">{{ trans('trips.menu.budget') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="#">{{ trans('trips.menu.budget') }}</a>
+    {% endif %}
+
+    {% if active == 'planning' %}
+      <a class="btn btn-sm btn-outline-secondary active" href="#">{{ trans('trips.menu.planning') }}</a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-secondary" href="#">{{ trans('trips.menu.planning') }}</a>
+    {% endif %}
+
+  </div>
+</div>

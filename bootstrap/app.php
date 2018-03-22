@@ -131,6 +131,10 @@ $container['view'] = function ($container) {
       'list' => $container->LanguageHelper->getList($container)
     ]);
 
+    $view->getEnvironment()->addGlobal('system', [
+      'date' => date('d/m/Y'),
+    ]);
+
     return $view;
 
 };

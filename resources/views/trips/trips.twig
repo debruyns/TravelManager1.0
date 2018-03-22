@@ -8,7 +8,7 @@
 
   <div class="card-header">
     <span class="align-middle">{{ trans('trips.general.mytrips') }}</span>
-    <a href="{{ path_for('trips.create') }}" class="btn btn-primary float-right">{{ trans('trips.general.create') }}</a>
+    <a href="{{ path_for('trips.create') }}" class="btn btn-primary btn-sm float-right">{{ trans('trips.general.create') }}</a>
     <div class="clearfix"></div>
   </div>
 
@@ -18,7 +18,7 @@
 
       {% for row in mytrips | batch(4, 'Empty') %}
 
-        <div class="row">
+        <div class="row row-margin">
 
           {% for trip in row %}
 
@@ -68,7 +68,7 @@
       {% endfor %}
 
     {% else %}
-      <h6 class="text-muted">{{ trans('trips.general.nofound') }}</h>
+      <h6 class="text-muted">{{ trans('trips.general.nofound') }}</h6>
     {% endif %}
 
   </div>

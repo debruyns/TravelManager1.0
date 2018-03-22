@@ -1,0 +1,46 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="card mt-2 mx-auto" style="width: 60%;">
+
+  <div class="card-header">{{ trans('trips.travelers.create') }}</div>
+
+  <div class="card-body">
+
+    {% include 'templates/message.twig' %}
+
+    <form method="post" action="{{ path_for('trips.travelers.create.post') }}" autocomplete="off">
+
+      <div class="form-group">
+        <label for="firstname">{{ trans('trips.travelers.firstname') }}</label>
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_firstname') ? ' is-invalid' : '' }}" name="firstname" maxlength="40" placeholder="{{ trans('trips.travelers.firstnamePlace') }}" value="{{ persistInput.firstname }}">
+        {% if flash.getMessage('error_firstname') %}
+          <small class="text-danger">{{ flash.getMessage('error_firstname') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="lastname">{{ trans('trips.travelers.lastname') }}</label>
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_lastname') ? ' is-invalid' : '' }}" name="lastname" maxlength="40" placeholder="{{ trans('trips.travelers.lastnamePlace') }}" value="{{ persistInput.lastname }}">
+        {% if flash.getMessage('error_lastname') %}
+          <small class="text-danger">{{ flash.getMessage('error_lastname') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="text-center mt-5">
+        <button class="btn btn-primary" type="submit">{{ trans('input.button.create') }}</button>
+        <a href="{{ path_for('trips.travelers', { id: trip.identifier }) }}" class="btn btn-danger">{{ trans('input.button.cancel') }}</a>
+      </div>
+
+      <input type="hidden" name="identifier" value="{{ trip.identifier }}">
+
+      {{ csrf.fields | raw }}
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

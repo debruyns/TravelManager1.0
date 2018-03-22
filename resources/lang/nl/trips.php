@@ -59,10 +59,64 @@ return [
       'title' => 'Nieuwe trip aanmaken',
       'name' => 'Trip Naam',
       'namePlace' => 'Vul een naam in van maximum 20 karakters',
-      'start' => 'Datum Vertrek',
-      'stop' => 'Datum Terugkomst',
+      'period' => 'Trip Periode',
       'datePlace' => 'dd/mm/jjjj',
+      'rangePlace' => 'dd/mm/jjjj - dd/mm/jjjj',
       'success' => 'Uw %name% trip is succesvol aangemaakt'
+
+    ],
+
+    'manage' => [
+
+      'notFound' => 'De gevraagde trip kan niet worden weergegeven'
+
+    ],
+
+    'menu' => [
+
+      'general' => 'Algemeen',
+      'travelers' => 'Reizigers',
+      'accommodation' => 'Accommodatie',
+      'transport' => 'Vervoer',
+      'budget' => 'Budget',
+      'planning' => 'Planning'
+
+    ],
+
+    'settings' => [
+
+      'header' => 'Algemene Instellingen',
+      'success' => 'De wijzigingen zijn succesvol opgeslagen'
+
+    ],
+
+
+    'travelers' => [
+
+      'header' => 'Reizigers',
+      'nofound' => 'Er bestaan nog geen reizigers voor deze trip',
+      'firstname' => 'Voornaam',
+      'lastname' => 'Achternaam',
+      'edit' => 'Wijzigen',
+      'delete' => 'Verwijderen',
+      'create' => 'Nieuwe reiziger aanmaken',
+      'firstnamePlace' => 'Vul een voornaam in van maximum 40 karakters',
+      'lastnamePlace' => 'Vul een achternaam in van maximum 40 karakters',
+      'duplicate' => 'Er bestaat al een reiziger met exact dezelfde naam tijdens deze trip (Voeg iets extra toe om de namen van de reizigers uniek te houden)',
+      'created' => 'De nieuwe reiziger is aangemaakt',
+      'change' => 'Reiziger wijzigen',
+      'changed' => 'De reiziger is succesvol gewijzigd',
+      'deleted' => 'De reiziger is succesvol verwijderd',
+      'remove' => 'Reiziger verwijderen',
+      'confirmDelete' => 'Bent u zeker dat u deze reiziger wil verwijderen?'
+
+    ],
+
+    'error' => [
+
+      'notFound' => 'Trip bestaat niet',
+      'auth' => 'U bent niet gemachtigd om deze trip te wijzigen',
+      'notActive' => 'U kunt alleen actieve trips wijzigen'
 
     ]
 

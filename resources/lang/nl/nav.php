@@ -15,7 +15,7 @@ return [
     'auth' => [
 
       'trips' => 'Trips',
-      'messages' => 'Berichten',
+      'messages' => 'Meldingen',
       'help' => 'Hulp',
       'account' => 'Mijn Account',
       'logout' => 'Uitloggen'

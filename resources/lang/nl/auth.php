@@ -69,7 +69,7 @@ return [
       'match' => 'Dit veld komt niet overeen met uw wachtwoord',
       'invalidEmail' => 'Dit is geen geldig e-mailadres',
       'usedEmail' => 'Er bestaat al een account met dit e-mailadres',
-      'invalidDate' => 'Dit is geen geldige datum',
+      'invalidDate' => 'Dit is geen geldig datumbereik',
       'pastDate' => 'De begindatum van een trip mag niet in het verleden liggen',
       'pastStart' => 'De einddatum mag niet in het verleden van de begindatum liggen',
       'invalid' => 'Dit veld is niet geldig',

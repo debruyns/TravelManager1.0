@@ -5,88 +5,578 @@ namespace App\Helpers;
 use App\Models\User;
 use App\Models\Trip;
 use App\Models\Shared;
+use App\Models\Traveler;
 use DateTime;
 
 class TripHelper {
+
+  public function deleteTraveler($request, $container) {
+
+    $error_general = null;
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $traveler_id = (int) $request->getParam('traveler') / 55;
+    $traveler = Traveler::where('id', $traveler_id)->where('trip', $identifier)->get()->first();
+
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($traveler) {
+
+        if ($trip->active == 'true') {
+
+          if ($trip->owner == $user->id || $shared == true) {
+
+            $traveler->delete();
+
+            $container->flash->addMessage('success', $container->translator->trans('trips.travelers.deleted'));
+
+            return true;
+
+          } else {
+            $error_general = $container->translator->trans('trips.error.auth');
+          }
+
+        } else {
+          $error_general = $container->translator->trans('trips.error.notActive');
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.notFound');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_firstname) {
+      $container->flash->addMessage('error_firstname', $error_firstname);
+    }
+
+    if ($error_lastname) {
+      $container->flash->addMessage('error_lastname', $error_lastname);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+    return false;
+
+  }
+
+  public function editTraveler($request, $container) {
+
+    $error_firstname = null;
+    $error_lastname = null;
+    $error_general = null;
+
+    $firstname = $request->getParam('firstname');
+    $lastname = $request->getParam('lastname');
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $traveler_id = (int) $request->getParam('traveler') / 55;
+    $traveler = Traveler::where('id', $traveler_id)->where('trip', $identifier)->get()->first();
+
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($traveler) {
+
+        if ($trip->active == 'true') {
+
+          if ($trip->owner == $user->id || $shared == true) {
+
+            if (!empty($firstname) && !empty($lastname)) {
+
+              if (strlen($firstname) <= 40 && strlen($lastname) <= 40) {
+
+                $searchDuplicate = Traveler::where('trip', $trip->id)->where('firstname', $firstname)->where('lastname', $lastname)->where('id', '!=', $traveler->id)->get();
+                if (count($searchDuplicate) == 0) {
+
+                  $traveler->firstname = $firstname;
+                  $traveler->lastname = $lastname;
+                  $traveler->save();
+
+                  $container->flash->addMessage('success', $container->translator->trans('trips.travelers.changed'));
+                  return true;
+
+
+                } else {
+                  $error_general = $container->translator->trans('trips.travelers.duplicate');
+                }
+
+              } else {
+
+                if (strlen($firstname) > 40) {
+                  $error_firstname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+                }
+                if (strlen($lastname) > 40) {
+                  $error_lastname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+                }
+
+              }
+
+            } else {
+
+              if (empty($firstname)) {
+                $error_firstname = $container->translator->trans('auth.validation.required');
+              }
+              if (empty($lastname)) {
+                $error_lastname = $container->translator->trans('auth.validation.required');
+              }
+
+            }
+
+          } else {
+            $error_general = $container->translator->trans('trips.error.auth');
+          }
+
+        } else {
+          $error_general = $container->translator->trans('trips.error.notActive');
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.notFound');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_firstname) {
+      $container->flash->addMessage('error_firstname', $error_firstname);
+    }
+
+    if ($error_lastname) {
+      $container->flash->addMessage('error_lastname', $error_lastname);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+    return false;
+
+  }
+
+  public function createTraveler($request, $container) {
+
+    $error_firstname = null;
+    $error_lastname = null;
+    $error_general = null;
+
+    $firstname = $request->getParam('firstname');
+    $lastname = $request->getParam('lastname');
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($trip->active == 'true') {
+
+        if ($trip->owner == $user->id || $shared == true) {
+
+          if (!empty($firstname) && !empty($lastname)) {
+
+            if (strlen($firstname) <= 40 && strlen($lastname) <= 40) {
+
+              $searchDuplicate = Traveler::where('trip', $trip->id)->where('firstname', $firstname)->where('lastname', $lastname)->get();
+              if (count($searchDuplicate) == 0) {
+
+                $traveler = Traveler::create([
+                  'trip' => $trip->id,
+                  'firstname' => $firstname,
+                  'lastname' => $lastname
+                ]);
+
+                if ($traveler) {
+
+                  $container->flash->addMessage('success', $container->translator->trans('trips.travelers.created'));
+                  return true;
+
+                } else {
+                  $error_general = $container->translator->trans('auth.validation.error');
+                }
+
+              } else {
+                $error_general = $container->translator->trans('trips.travelers.duplicate');
+              }
+
+            } else {
+
+              if (strlen($firstname) > 40) {
+                $error_firstname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+              }
+              if (strlen($lastname) > 40) {
+                $error_lastname = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '40' ]);
+              }
+
+            }
+
+          } else {
+
+            if (empty($firstname)) {
+              $error_firstname = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($lastname)) {
+              $error_lastname = $container->translator->trans('auth.validation.required');
+            }
+
+          }
+
+        } else {
+          $error_general = $container->translator->trans('trips.error.auth');
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.notActive');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_firstname) {
+      $container->flash->addMessage('error_firstname', $error_firstname);
+    }
+
+    if ($error_lastname) {
+      $container->flash->addMessage('error_lastname', $error_lastname);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+    return false;
+
+  }
+
+  public function getTraveler($traveler, $trip, $container) {
+
+    $traveler_id = (int) $traveler / 55;
+    $traveler_obj =  Traveler::where('id', $traveler_id)->where('trip', $trip)->first();
+
+    if ($traveler_obj) {
+      $traveler_obj->identifier = ( (int) $traveler_obj->id * 55 );
+      return $traveler_obj;
+    } else {
+      return null;
+    }
+
+  }
+
+  public function getTravelers($id, $container) {
+
+    $travelers = Traveler::where('trip', $id)->orderBy('firstname', 'ASC')->get();
+
+    foreach ($travelers as &$traveler) {
+
+      $traveler->identifier = ( (int) $traveler->id * 55 );
+
+    }
+
+    return $travelers;
+
+  }
+
+  public function updateGeneral($request, $container) {
+
+    $error_name = null;
+    $error_period = null;
+    $error_type = null;
+    $error_phase = null;
+    $error_general = null;
+
+    $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
+    $trip = Trip::find($identifier);
+    $user = $container->AuthHelper->getSessionUser();
+
+    $shared = Shared::where('trip', $trip->id)->where('user', $user->id)->where('readonly', 'false')->get();
+    if (count($shared) > 0) {
+      $shared = true;
+    } else {
+      $shared = false;
+    }
+
+    if ($trip) {
+
+      if ($trip->active == 'true') {
+
+        if ($trip->owner == $user->id || $shared == true) {
+
+          $name = $request->getParam('name');
+          $period = $request->getParam('period');
+          $type = $request->getParam('type');
+          $phase = $request->getParam('phase');
+
+          if (!empty($name) && !empty($period) && !empty($type) && !empty($phase)) {
+
+            if (strlen($name) <= 20) {
+
+              $period_split = explode(' - ', $period);
+              if (count($period_split) == 2){
+
+                $start_split = explode('/', $period_split[0]);
+                if (count($start_split) == 3) {
+
+                  if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
+
+                    $stop_split = explode('/', $period_split[1]);
+                    if (count($stop_split) == 3) {
+
+                      if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
+
+                        if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
+
+                          if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
+
+                            if ($type == 'leisure' || $type == 'business') {
+
+                              if ($phase == '1' || $phase == '2' || $phase == '3' || $phase == '4' || $phase == '5') {
+
+                                $trip->name = $name;
+                                $trip->start = $start_split[2]."-".$start_split[1]."-".$start_split[0];
+                                $trip->stop = $stop_split[2]."-".$stop_split[1]."-".$stop_split[0];
+                                $trip->type = $type;
+                                $trip->phase = $phase;
+
+                                if ($trip->save()) {
+                                  $container->flash->addMessage('success', $container->translator->trans('trips.settings.success'));
+                                } else {
+                                  $error_general = $container->translator->trans('auth.validation.error');
+                                }
+
+                              } else {
+                                $error_phase = $container->translator->trans('auth.validation.invalid');
+                              }
+
+                            } else {
+                              $error_type = $container->translator->trans('auth.validation.invalid');
+                            }
+
+                          } else {
+                            $error_period = $container->translator->trans('auth.validation.pastStart');
+                          }
+
+                        } else {
+                          $error_period = $container->translator->trans('auth.validation.pastDate');
+                        }
+
+                      } else {
+                        $error_period = $container->translator->trans('auth.validation.invalidDate');
+                      }
+
+                    } else {
+                      $error_period = $container->translator->trans('auth.validation.invalidDate');
+                    }
+
+                  } else {
+                    $error_period = $container->translator->trans('auth.validation.invalidDate');
+                  }
+
+                } else {
+                  $error_period = $container->translator->trans('auth.validation.invalidDate');
+                }
+
+              } else {
+                $error_period = $container->translator->trans('auth.validation.invalidDate');
+              }
+
+            } else {
+              $error_name = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '20' ]);
+            }
+
+          } else {
+            if (empty($name)) {
+              $error_name = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($period)) {
+              $error_period = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($type)) {
+              $error_type = $container->translator->trans('auth.validation.required');
+            }
+            if (empty($phase)) {
+              $error_phase = $container->translator->trans('auth.validation.required');
+            }
+          }
+
+        } else {
+          $error_general = $container->translator->trans('trips.error.auth');
+        }
+
+      } else {
+        $error_general = $container->translator->trans('trips.error.notActive');
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_name) {
+      $container->flash->addMessage('error_name', $error_name);
+    }
+
+    if ($error_period) {
+      $container->flash->addMessage('error_period', $error_period);
+    }
+
+    if ($error_type) {
+      $container->flash->addMessage('error_type', $error_type);
+    }
+
+    if ($error_phase) {
+      $container->flash->addMessage('error_phase', $error_type);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+  }
+
+  public function getTrip($id, $container) {
+
+    $identifier = ( ( (int) substr($id, 10) - 25879 ) / 5 );
+
+    $trip = Trip::find($identifier);
+
+    $sessionUser = $container->AuthHelper->getSessionUser();
+    if ($sessionUser) {
+
+      $trip->formatStartDate = date('d/m/Y', strtotime($trip->start));
+      $trip->formatStopDate = date('d/m/Y', strtotime($trip->stop));
+      $trip->formatPeriod = $trip->formatStartDate.' - '.$trip->formatStopDate;
+
+      if ($trip->owner == $sessionUser->id) {
+
+        // Add Identifier
+        $trip->identifier = 'CTO-'.strtoupper(substr(md5($trip->owner), 0, 5)).'-'.(($trip->id*5)+25879);
+
+        return $trip;
+
+      } else {
+        return null;
+      }
+
+    } else {
+      return null;
+    }
+
+  }
 
   public function createTrip($request, $container) {
 
     $return_result = false;
     $error_name = null;
-    $error_start = null;
-    $error_stop = null;
+    $error_period = null;
     $error_type = null;
 
     $name = $request->getParam('name');
-    $start = $request->getParam('start');
-    $stop = $request->getParam('stop');
+    $period = $request->getParam('period');
     $type = $request->getParam('type');
 
-    if (!empty($name) && !empty($start) && !empty($stop) && !empty($type)) {
+    if (!empty($name) && !empty($period) && !empty($type)) {
 
       if (strlen($name) <= 20) {
 
-        $start_split = explode('/', $start);
-        if (count($start_split) == 3) {
+        $period_split = explode(' - ', $period);
+        if (count($period_split) == 2){
 
-          if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
+          $start_split = explode('/', $period_split[0]);
+          if (count($start_split) == 3) {
 
-            $stop_split = explode('/', $stop);
-            if (count($stop_split) == 3) {
+            if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
 
-              if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
+              $stop_split = explode('/', $period_split[1]);
+              if (count($stop_split) == 3) {
 
-                if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
+                if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
 
-                  if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
+                  if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) >= new DateTime(date('Y-m-d'))) {
 
-                    if ($type == 'leisure' || $type == 'business') {
+                    if (new DateTime($start_split[2]."-".$start_split[1]."-".$start_split[0]) <= new DateTime($stop_split[2]."-".$stop_split[1]."-".$stop_split[0])) {
 
-                      $user = $container->AuthHelper->getSessionUser();
+                      if ($type == 'leisure' || $type == 'business') {
 
-                      $new_trip = Trip::create([
-                                    'name' => $name,
-                                    'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
-                                    'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
-                                    'active' => 'true',
-                                    'owner' => $user->id,
-                                    'type' => $type,
-                                    'phase' => 1
-                                  ]);
+                        $user = $container->AuthHelper->getSessionUser();
 
-                      if ($new_trip) {
-                        $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
-                        return true;
+                        $new_trip = Trip::create([
+                                      'name' => $name,
+                                      'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
+                                      'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
+                                      'active' => 'true',
+                                      'owner' => $user->id,
+                                      'type' => $type,
+                                      'phase' => 1
+                                    ]);
+
+                        if ($new_trip) {
+                          $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
+                          return true;
+                        } else {
+                          $error_general = $container->translator->trans('auth.validation.error');
+                        }
+
                       } else {
-                        $error_general = $container->translator->trans('auth.validation.error');
+                        $error_type = $container->translator->trans('auth.validation.invalid');
                       }
 
                     } else {
-                      $error_type = $container->translator->trans('auth.validation.invalid');
+                      $error_period = $container->translator->trans('auth.validation.pastStart');
                     }
 
                   } else {
-                    $error_stop = $container->translator->trans('auth.validation.pastStart');
+                    $error_period = $container->translator->trans('auth.validation.pastDate');
                   }
 
                 } else {
-                  $error_start = $container->translator->trans('auth.validation.pastDate');
+                  $error_period = $container->translator->trans('auth.validation.invalidDate');
                 }
 
               } else {
-                $error_stop = $container->translator->trans('auth.validation.invalidDate');
+                $error_period = $container->translator->trans('auth.validation.invalidDate');
               }
 
             } else {
-              $error_stop = $container->translator->trans('auth.validation.invalidDate');
+              $error_period = $container->translator->trans('auth.validation.invalidDate');
             }
 
           } else {
-            $error_start = $container->translator->trans('auth.validation.invalidDate');
+            $error_period = $container->translator->trans('auth.validation.invalidDate');
           }
 
         } else {
-          $error_start = $container->translator->trans('auth.validation.invalidDate');
+          $error_period = $container->translator->trans('auth.validation.invalidDate');
         }
 
       } else {
@@ -97,11 +587,8 @@ class TripHelper {
       if (empty($name)) {
         $error_name = $container->translator->trans('auth.validation.required');
       }
-      if (empty($start)) {
-        $error_start = $container->translator->trans('auth.validation.required');
-      }
-      if (empty($stop)) {
-        $error_stop = $container->translator->trans('auth.validation.required');
+      if (empty($period)) {
+        $error_period = $container->translator->trans('auth.validation.required');
       }
       if (empty($type)) {
         $error_type = $container->translator->trans('auth.validation.required');
@@ -112,12 +599,8 @@ class TripHelper {
       $container->flash->addMessage('error_name', $error_name);
     }
 
-    if ($error_start) {
-      $container->flash->addMessage('error_start', $error_start);
-    }
-
-    if ($error_stop) {
-      $container->flash->addMessage('error_stop', $error_stop);
+    if ($error_period) {
+      $container->flash->addMessage('error_period', $error_period);
     }
 
     if ($error_type) {

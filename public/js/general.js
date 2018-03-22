@@ -7,11 +7,5 @@ $(document).ready(function(){
 
   });
 
-  // Date Selector
-  $('.date-format').datepicker({
-    dateFormat: 'dd/mm/yy',
-    constrainInput: true
-  });
-
 
 });

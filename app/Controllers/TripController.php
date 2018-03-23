@@ -27,10 +27,13 @@ class TripController extends Controller {
   // HTTP GET Trip Create
   public function getCreateTrip($request, $response) {
 
+    $currencies = $this->CurrencyHelper->getCurrencies();
+
     $viewData = [
       'page' => [
         'title' => $this->translator->trans('trips.create.pageTitle')
-      ]
+      ],
+      'currencies' => $currencies
     ];
 
     return $this->view->render($response, 'trips/create.twig', $viewData);
@@ -53,6 +56,7 @@ class TripController extends Controller {
   public function getManageTrip($request, $response, $args) {
 
     $trip = $this->TripHelper->getTrip($args['id'], $this);
+    $currencies = $this->CurrencyHelper->getCurrencies();
 
     if (!$trip) {
       $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
@@ -64,7 +68,8 @@ class TripController extends Controller {
         'title' => $trip->name
       ],
       'active' => 'general',
-      'trip' => $trip
+      'trip' => $trip,
+      'currencies' => $currencies
     ];
 
     return $this->view->render($response, 'trips/manage.twig', $viewData);

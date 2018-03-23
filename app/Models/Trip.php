@@ -15,7 +15,8 @@ class Trip extends Model {
         'active',
         'owner',
         'type',
-        'phase'
+        'phase',
+        'currency'
     ];
 
 }

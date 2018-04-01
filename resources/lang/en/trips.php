@@ -18,7 +18,8 @@ return [
       'nofound' => 'You do not have any trips yet',
       'noshared' => 'No trips are currently shared with you',
       'owner' => 'Owner',
-      'create' => 'Create a new trip'
+      'create' => 'Create a new trip',
+      'currency' => 'Currency'
 
     ],
 
@@ -85,7 +86,7 @@ return [
 
     'settings' => [
 
-      'header' => 'General Settings',
+      'header' => 'General Information',
       'success' => 'The changes were saved successfully'
 
     ],

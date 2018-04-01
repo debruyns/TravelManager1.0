@@ -98,6 +98,10 @@ $container['LanguageHelper'] = function ($container) {
     return new \App\Helpers\LanguageHelper;
 };
 
+// Currency Helper
+$container['CurrencyHelper'] = function ($container) {
+    return new \App\Helpers\CurrencyHelper;
+};
 
 // Setup Twig
 $container['view'] = function ($container) {

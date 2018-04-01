@@ -314,6 +314,7 @@ class TripHelper {
     $error_period = null;
     $error_type = null;
     $error_phase = null;
+    $error_currency = null;
     $error_general = null;
 
     $identifier = ( ( (int) substr($request->getParam('identifier'), 10) - 25879 ) / 5 );
@@ -337,8 +338,9 @@ class TripHelper {
           $period = $request->getParam('period');
           $type = $request->getParam('type');
           $phase = $request->getParam('phase');
+          $currency = $request->getParam('currency');
 
-          if (!empty($name) && !empty($period) && !empty($type) && !empty($phase)) {
+          if (!empty($name) && !empty($period) && !empty($type) && !empty($phase) && !empty($currency)) {
 
             if (strlen($name) <= 20) {
 
@@ -363,16 +365,24 @@ class TripHelper {
 
                               if ($phase == '1' || $phase == '2' || $phase == '3' || $phase == '4' || $phase == '5') {
 
-                                $trip->name = $name;
-                                $trip->start = $start_split[2]."-".$start_split[1]."-".$start_split[0];
-                                $trip->stop = $stop_split[2]."-".$stop_split[1]."-".$stop_split[0];
-                                $trip->type = $type;
-                                $trip->phase = $phase;
+                                $currency_obj = $container->CurrencyHelper->getCurrency($currency);
+                                if ($currency_obj) {
 
-                                if ($trip->save()) {
-                                  $container->flash->addMessage('success', $container->translator->trans('trips.settings.success'));
+                                  $trip->name = $name;
+                                  $trip->start = $start_split[2]."-".$start_split[1]."-".$start_split[0];
+                                  $trip->stop = $stop_split[2]."-".$stop_split[1]."-".$stop_split[0];
+                                  $trip->type = $type;
+                                  $trip->phase = $phase;
+                                  $trip->currency = $currency_obj->id;
+
+                                  if ($trip->save()) {
+                                    $container->flash->addMessage('success', $container->translator->trans('trips.settings.success'));
+                                  } else {
+                                    $error_general = $container->translator->trans('auth.validation.error');
+                                  }
+
                                 } else {
-                                  $error_general = $container->translator->trans('auth.validation.error');
+                                  $error_currency = $container->translator->trans('auth.validation.invalid');
                                 }
 
                               } else {
@@ -428,6 +438,9 @@ class TripHelper {
             if (empty($phase)) {
               $error_phase = $container->translator->trans('auth.validation.required');
             }
+            if (empty($currency)) {
+              $error_currency = $container->translator->trans('auth.validation.required');
+            }
           }
 
         } else {
@@ -456,6 +469,10 @@ class TripHelper {
 
     if ($error_phase) {
       $container->flash->addMessage('error_phase', $error_type);
+    }
+
+    if ($error_currency) {
+      $container->flash->addMessage('error_currency', $error_currency);
     }
 
     if ($error_general) {
@@ -500,12 +517,14 @@ class TripHelper {
     $error_name = null;
     $error_period = null;
     $error_type = null;
+    $error_currency = null;
 
     $name = $request->getParam('name');
     $period = $request->getParam('period');
     $type = $request->getParam('type');
+    $currency = $request->getParam('currency');
 
-    if (!empty($name) && !empty($period) && !empty($type)) {
+    if (!empty($name) && !empty($period) && !empty($type) && !empty($currency)) {
 
       if (strlen($name) <= 20) {
 
@@ -528,23 +547,31 @@ class TripHelper {
 
                       if ($type == 'leisure' || $type == 'business') {
 
-                        $user = $container->AuthHelper->getSessionUser();
+                        $currency_obj = $container->CurrencyHelper->getCurrency($currency);
+                        if ($currency_obj) {
 
-                        $new_trip = Trip::create([
-                                      'name' => $name,
-                                      'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
-                                      'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
-                                      'active' => 'true',
-                                      'owner' => $user->id,
-                                      'type' => $type,
-                                      'phase' => 1
-                                    ]);
+                          $user = $container->AuthHelper->getSessionUser();
 
-                        if ($new_trip) {
-                          $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
-                          return true;
+                          $new_trip = Trip::create([
+                                        'name' => $name,
+                                        'start' => $start_split[2]."-".$start_split[1]."-".$start_split[0],
+                                        'stop' => $stop_split[2]."-".$stop_split[1]."-".$stop_split[0],
+                                        'active' => 'true',
+                                        'owner' => $user->id,
+                                        'type' => $type,
+                                        'phase' => 1,
+                                        'currency' => $currency_obj->id
+                                      ]);
+
+                          if ($new_trip) {
+                            $container->flash->addMessage('success', $container->translator->trans('trips.create.success', [ '%name%' => $new_trip->name ]));
+                            return true;
+                          } else {
+                            $error_general = $container->translator->trans('auth.validation.error');
+                          }
+
                         } else {
-                          $error_general = $container->translator->trans('auth.validation.error');
+                          $error_currency = $container->translator->trans('auth.validation.invalid');
                         }
 
                       } else {
@@ -593,6 +620,9 @@ class TripHelper {
       if (empty($type)) {
         $error_type = $container->translator->trans('auth.validation.required');
       }
+      if (empty($currency)) {
+        $error_currency = $container->translator->trans('auth.validation.required');
+      }
     }
 
     if ($error_name) {
@@ -605,6 +635,10 @@ class TripHelper {
 
     if ($error_type) {
       $container->flash->addMessage('error_type', $error_type);
+    }
+
+    if ($error_currency) {
+      $container->flash->addMessage('error_currency', $error_currency);
     }
 
     if ($error_general) {

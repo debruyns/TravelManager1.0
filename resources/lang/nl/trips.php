@@ -18,7 +18,8 @@ return [
       'nofound' => 'Je hebt nog geen trips',
       'noshared' => 'Er zijn momenteel geen trips met je gedeeld',
       'owner' => 'Eigenaar',
-      'create' => 'Nieuwe trip aanmaken'
+      'create' => 'Nieuwe trip aanmaken',
+      'currency' => 'Valuta'
 
     ],
 
@@ -85,7 +86,7 @@ return [
 
     'settings' => [
 
-      'header' => 'Algemene Instellingen',
+      'header' => 'Algemene Informatie',
       'success' => 'De wijzigingen zijn succesvol opgeslagen'
 
     ],

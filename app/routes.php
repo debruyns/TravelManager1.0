@@ -52,7 +52,9 @@ $app->group('', function() {
   $this->post('/trips/create', 'TripController:postCreateTrip');
   $this->get('/trips/manage/{id}', 'TripController:getManageTrip')->setName('trips.manage');
   $this->post('/trips/manage/general', 'TripController:postUpdateGeneral')->setName('trips.manage.general');
+
   $this->get('/trips/manage/travelers/{id}', 'TripController:getManageTravelers')->setName('trips.travelers');
+  $this->get('/trips/manage/travelers/details/{id}/{traveler}', 'TripController:getDetailsTraveler')->setName('trips.travelers.details');
   $this->get('/trips/manage/travelers/edit/{id}/{traveler}', 'TripController:getEditTraveler')->setName('trips.travelers.edit');
   $this->post('/trips/manage/travelers/edit', 'TripController:postEditTraveler')->setName('trips.travelers.edit.post');
   $this->get('/trips/manage/travelers/delete/{id}/{traveler}', 'TripController:getDeleteTraveler')->setName('trips.travelers.delete');
@@ -60,6 +62,10 @@ $app->group('', function() {
   $this->get('/trips/manage/travelers/create/{id}', 'TripController:getCreateTraveler')->setName('trips.travelers.create');
   $this->post('/trips/manage/travelers/create', 'TripController:postCreateTraveler')->setName('trips.travelers.create.post');
 
+  $this->get('/trips/manage/accommodations/{id}', 'TripController:getManageAccommodations')->setName('trips.accommodations');
+  $this->get('/trips/manage/accommodations/details/{id}/{accommodation}', 'TripController:getDetailsAccommodation')->setName('trips.accommodations.details');
+  $this->get('/trips/manage/accommodations/create/{id}', 'TripController:getCreateAccommodation')->setName('trips.accommodations.create');
+  $this->post('/trips/manage/accommodations/create', 'TripController:postCreateAccommodation')->setName('trips.accommodations.create.post');
 
   // Payment Routes
   $this->get('/payment/token', 'PaymentController:getToken')->setName('payment.token');

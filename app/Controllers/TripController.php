@@ -110,6 +110,34 @@ class TripController extends Controller {
 
   }
 
+  // HTTP GET Details Traveler
+  public function getDetailsTraveler($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $traveler = $this->TripHelper->getTraveler($args['traveler'], $trip->id, $this);
+    if (!$traveler) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip,
+      'traveler' => $traveler
+    ];
+
+    return $this->view->render($response, 'trips/travelers/details.twig', $viewData);
+
+  }
+
   // HTTP GET Create Traveler
   public function getCreateTraveler($request, $response, $args) {
 
@@ -182,8 +210,9 @@ class TripController extends Controller {
     $return = $this->TripHelper->editTraveler($request, $this);
 
     if ($return == true) {
-      return $response->withRedirect($this->router->pathFor('trips.travelers', [
-        'id' => $request->getParam('identifier')
+      return $response->withRedirect($this->router->pathFor('trips.travelers.details', [
+        'id' => $request->getParam('identifier'),
+        'traveler' => $request->getParam('traveler')
       ]));
     } else {
       return $response->withRedirect($this->router->pathFor('trips.travelers.edit', [
@@ -237,6 +266,80 @@ class TripController extends Controller {
         'traveler' => $request->getParam('traveler')
       ]));
     }
+
+  }
+
+  // HTTP GET Accommodations Trip
+  public function getManageAccommodations($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $accommodations = $this->TripHelper->getAccommodations($trip->id, $this);
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'active' => 'accommodations',
+      'trip' => $trip,
+      'accommodations' => $accommodations
+    ];
+
+    return $this->view->render($response, 'trips/accommodations.twig', $viewData);
+
+  }
+
+  // HTTP GET Details Accommodation
+  public function getDetailsAccommodation($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $accommodation = $this->TripHelper->getAccommodation($args['accommodation'], $trip->id, $this);
+    if (!$accommodation) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip,
+      'accommodation' => $accommodation
+    ];
+
+    return $this->view->render($response, 'trips/accommodations/details.twig', $viewData);
+
+  }
+
+  // HTTP GET Create Accommodation
+  public function getCreateAccommodation($request, $response, $args) {
+
+    $trip = $this->TripHelper->getTrip($args['id'], $this);
+
+    if (!$trip) {
+      $this->flash->addMessage('error', $this->translator->trans('trips.manage.notFound'));
+      return $response->withRedirect($this->router->pathFor('trips'));
+    }
+
+    $viewData = [
+      'page' => [
+        'title' => $trip->name
+      ],
+      'trip' => $trip
+    ];
+
+    return $this->view->render($response, 'trips/accommodations/create.twig', $viewData);
 
   }
 

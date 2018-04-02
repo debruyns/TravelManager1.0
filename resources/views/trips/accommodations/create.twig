@@ -1,0 +1,67 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="card mt-2 mx-auto" style="width: 60%;">
+
+  <div class="card-header">{{ trans('trips.accommodations.create') }}</div>
+
+  <div class="card-body">
+
+    {% include 'templates/message.twig' %}
+
+    <form method="post" action="{{ path_for('trips.accommodations.create.post') }}" autocomplete="off">
+
+      <div class="form-group">
+        <label for="name">{{ trans('trips.accommodations.name') }}</label>
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_name') ? ' is-invalid' : '' }}" name="name" maxlength="50" placeholder="{{ trans('trips.accommodations.namePlace') }}" value="{{ persistInput.name }}">
+        {% if flash.getMessage('error_name') %}
+          <small class="text-danger">{{ flash.getMessage('error_name') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="period">{{ trans('trips.accommodations.dates') }}</label>
+        <input type="text" class="form-control f-no-border date-format {{ flash.getMessage('error_period') ? ' is-invalid' : '' }}" name="period" maxlength="23" placeholder="{{ trans('trips.accommodations.periodPlace') }}" value="{{ persistInput.period }}">
+        {% if flash.getMessage('error_period') %}
+          <small class="text-danger">{{ flash.getMessage('error_period') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="reference">{{ trans('trips.accommodations.reference') }}</label>
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_reference') ? ' is-invalid' : '' }}" name="name" maxlength="50" placeholder="{{ trans('trips.accommodations.referencePlace') }}" value="{{ persistInput.reference }}">
+        {% if flash.getMessage('error_reference') %}
+          <small class="text-danger">{{ flash.getMessage('error_reference') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="price">{{ trans('trips.accommodations.price') }}</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend3">{{ trip.currencyCode }}</span>
+          </div>
+          <input type="text" class="form-control f-no-border {{ flash.getMessage('error_price') ? ' is-invalid' : '' }}" name="name" maxlength="8" placeholder="{{ trans('trips.accommodations.pricePlace') }}" value="{{ persistInput.price ? persistInput.price : '0.00' }}">
+          {% if flash.getMessage('error_price') %}
+            <small class="text-danger">{{ flash.getMessage('error_price') | first }}</small>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <button class="btn btn-primary" type="submit">{{ trans('input.button.create') }}</button>
+        <a href="{{ path_for('trips.accommodations', { id: trip.identifier }) }}" class="btn btn-danger">{{ trans('input.button.cancel') }}</a>
+      </div>
+
+      <input type="hidden" name="identifier" value="{{ trip.identifier }}">
+
+      {{ csrf.fields | raw }}
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -77,7 +77,7 @@ return [
 
       'general' => 'Algemeen',
       'travelers' => 'Reizigers',
-      'accommodation' => 'Accommodatie',
+      'accommodation' => 'Accommodaties',
       'transport' => 'Vervoer',
       'budget' => 'Budget',
       'planning' => 'Planning'
@@ -98,6 +98,7 @@ return [
       'nofound' => 'Er bestaan nog geen reizigers voor deze trip',
       'firstname' => 'Voornaam',
       'lastname' => 'Achternaam',
+      'details' => 'Details',
       'edit' => 'Wijzigen',
       'delete' => 'Verwijderen',
       'create' => 'Nieuwe reiziger aanmaken',
@@ -109,7 +110,30 @@ return [
       'changed' => 'De reiziger is succesvol gewijzigd',
       'deleted' => 'De reiziger is succesvol verwijderd',
       'remove' => 'Reiziger verwijderen',
-      'confirmDelete' => 'Bent u zeker dat u deze reiziger wil verwijderen?'
+      'confirmDelete' => 'Bent u zeker dat u deze reiziger wil verwijderen?',
+      'detailsTitle' => 'Reiziger Details'
+
+    ],
+
+    'accommodations' => [
+
+      'header' => 'Accommodaties',
+      'nofound' => 'Er bestaan nog geen accommodaties voor deze trip',
+      'name' => 'Naam',
+      'checkin' => 'Check-In',
+      'checkout' => 'Check-Uit',
+      'reference' => 'Referentie',
+      'price' => 'Prijs',
+      'details' => 'Details',
+      'edit' => 'Wijzigen',
+      'delete' => 'Verwijderen',
+      'create' => 'Nieuwe accommodatie aanmaken',
+      'dates' => 'Check-In/Uit',
+      'detailsTitle' => 'Accommodatie Details',
+      'namePlace' => 'Accommodatienaam',
+      'periodPlace' => 'dd/mm/jjjj - dd/mm/jjjj',
+      'referencePlace' => 'Boeking referentie (optioneel)',
+      'pricePlace' => 'Prijs van de boeking'
 
     ],
 

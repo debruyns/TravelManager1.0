@@ -38,7 +38,8 @@ return [
       'activate' => 'Enable',
       'deactivate' => 'Disable',
       'create' => 'Create',
-      'delete' => 'Delete'
+      'delete' => 'Delete',
+      'back' => 'Back'
 
     ]
 

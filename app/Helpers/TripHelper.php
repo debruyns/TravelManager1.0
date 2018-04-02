@@ -6,9 +6,41 @@ use App\Models\User;
 use App\Models\Trip;
 use App\Models\Shared;
 use App\Models\Traveler;
+use App\Models\Accommodation;
+use App\Models\Currency;
 use DateTime;
 
 class TripHelper {
+
+  public function getAccommodation($accommodation, $trip, $container) {
+
+    $accommodation_id = (int) $accommodation / 55;
+    $accommodation_obj =  Accommodation::where('id', $accommodation_id)->where('trip', $trip)->first();
+
+    if ($accommodation_obj) {
+      $accommodation_obj->identifier = ( (int) $accommodation_obj->id * 55 );
+      $accommodation_obj->period = date('d/m/Y', strtotime($accommodation_obj->checkin)).' - '.date('d/m/Y', strtotime($accommodation_obj->checkout));
+      return $accommodation_obj;
+    } else {
+      return null;
+    }
+
+  }
+
+  public function getAccommodations($id, $container) {
+
+    $accommodations = Accommodation::where('trip', $id)->orderBy('checkin', 'ASC')->get();
+
+    foreach ($accommodations as &$accommodation) {
+
+      $accommodation->identifier = ( (int) $accommodation->id * 55 );
+      $accommodation->period = date('d/m/Y', strtotime($accommodation->checkin)).' - '.date('d/m/Y', strtotime($accommodation->checkout));
+
+    }
+
+    return $accommodations;
+
+  }
 
   public function deleteTraveler($request, $container) {
 
@@ -498,6 +530,9 @@ class TripHelper {
 
         // Add Identifier
         $trip->identifier = 'CTO-'.strtoupper(substr(md5($trip->owner), 0, 5)).'-'.(($trip->id*5)+25879);
+
+        // Add Currency
+        $trip->currencyCode = Currency::find($trip->currency)->code;
 
         return $trip;
 

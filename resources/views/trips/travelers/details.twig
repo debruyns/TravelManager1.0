@@ -1,0 +1,33 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="card mt-2 mx-auto" style="width: 60%;">
+
+  <div class="card-header">{{ trans('trips.travelers.detailsTitle') }}</div>
+
+  <div class="card-body">
+
+    {% include 'templates/message.twig' %}
+
+    <div class="form-group">
+      <label>{{ trans('trips.travelers.firstname') }}</label>
+      <input type="text" class="form-control f-no-border" readonly value="{{ traveler.firstname }}">
+    </div>
+
+    <div class="form-group">
+      <label>{{ trans('trips.travelers.lastname') }}</label>
+      <input type="text" class="form-control f-no-border" readonly value="{{ traveler.lastname }}">
+    </div>
+
+    <div class="text-center mt-5">
+      <a class="btn btn-secondary" href="{{ path_for('trips.travelers.edit', { id: trip.identifier, traveler: traveler.identifier }) }}">{{ trans('trips.travelers.edit') }}</a>
+      <a class="btn btn-secondary" href="{{ path_for('trips.travelers.delete', { id: trip.identifier, traveler: traveler.identifier }) }}">{{ trans('trips.travelers.delete') }}</a>
+      <a class="btn btn-danger" href="{{ path_for('trips.travelers', { id: trip.identifier }) }}">{{ trans('input.button.back') }}</a>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

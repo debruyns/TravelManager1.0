@@ -38,7 +38,8 @@ return [
       'activate' => 'Inschakelen',
       'deactivate' => 'Uitschakelen',
       'create' => 'Aanmaken',
-      'delete' => 'Verwijderen'
+      'delete' => 'Verwijderen',
+      'back' => 'Terug'
 
     ]
 

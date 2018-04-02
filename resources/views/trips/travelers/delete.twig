@@ -20,7 +20,7 @@
 
       <div class="text-center mt-5">
         <button class="btn btn-primary" type="submit">{{ trans('input.button.delete') }}</button>
-        <a href="{{ path_for('trips.travelers', { id: trip.identifier }) }}" class="btn btn-danger">{{ trans('input.button.cancel') }}</a>
+        <a href="{{ path_for('trips.travelers.details', { id: trip.identifier, traveler: traveler.identifier }) }}" class="btn btn-danger">{{ trans('input.button.cancel') }}</a>
       </div>
 
       <input type="hidden" name="identifier" value="{{ trip.identifier }}">

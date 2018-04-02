@@ -77,7 +77,7 @@ return [
 
       'general' => 'General',
       'travelers' => 'Travelers',
-      'accommodation' => 'Accommodation',
+      'accommodation' => 'Accommodations',
       'transport' => 'Transport',
       'budget' => 'Budget',
       'planning' => 'Planning'
@@ -97,6 +97,7 @@ return [
       'nofound' => 'There are no travelers for this trip yet',
       'firstname' => 'Firstname',
       'lastname' => 'Lastname',
+      'details' => 'Details',
       'edit' => 'Edit',
       'delete' => 'Delete',
       'create' => 'Create new traveler',
@@ -108,7 +109,30 @@ return [
       'changed' => 'The traveler has been successfully changed',
       'deleted' => 'The traveler has been successfully deleted',
       'remove' => 'Delete traveler',
-      'confirmDelete' => 'Are you sure you want to delete this traveler?'
+      'confirmDelete' => 'Are you sure you want to delete this traveler?',
+      'detailsTitle' => 'Traveler Details'
+
+    ],
+
+    'accommodations' => [
+
+      'header' => 'Accommodations',
+      'nofound' => 'There are no accommodations for this trip yet',
+      'name' => 'Name',
+      'checkin' => 'Check-In',
+      'checkout' => 'Check-Out',
+      'reference' => 'Reference',
+      'price' => 'Price',
+      'details' => 'Details',
+      'edit' => 'Edit',
+      'delete' => 'Delete',
+      'create' => 'Create new accommodation',
+      'dates' => 'Check-In/Out',
+      'detailsTitle' => 'Accommodation Details',
+      'namePlace' => 'Accommodation name',
+      'periodPlace' => 'dd/mm/yyyy - dd/mm/yyyy',
+      'referencePlace' => 'Booking reference (optional)',
+      'pricePlace' => 'Booking price'
 
     ],
 

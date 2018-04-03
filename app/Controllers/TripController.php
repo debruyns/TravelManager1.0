@@ -343,4 +343,21 @@ class TripController extends Controller {
 
   }
 
+  // HTTP POST Create Accommodation
+  public function postCreateAccommodation($request, $response) {
+
+    $return = $this->TripHelper->createAccommodation($request, $this);
+
+    if ($return == true) {
+      return $response->withRedirect($this->router->pathFor('trips.accommodations', [
+        'id' => $request->getParam('identifier')
+      ]));
+    } else {
+      return $response->withRedirect($this->router->pathFor('trips.accommodations.create', [
+        'id' => $request->getParam('identifier')
+      ]));
+    }
+
+  }
+
 }

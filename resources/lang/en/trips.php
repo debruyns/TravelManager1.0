@@ -132,7 +132,28 @@ return [
       'namePlace' => 'Accommodation name',
       'periodPlace' => 'dd/mm/yyyy - dd/mm/yyyy',
       'referencePlace' => 'Booking reference (optional)',
-      'pricePlace' => 'Booking price'
+      'pricePlace' => 'Booking price',
+      'meals' => 'Meals',
+      'cancelable' => 'Cancelable for free',
+      'cancelbefore' => 'Cancelable for free before',
+      'cancelbeforePlace' => 'dd/mm/yyyy',
+
+      'mealOptions' => [
+
+        '1' => 'No meals included',
+        '2' => 'Breakfast',
+        '3' => 'Half board',
+        '4' => 'Full board',
+        '5' => 'All inclusive'
+
+      ],
+
+      'cancelOptions' => [
+
+        'true' => 'Yes',
+        'false' => 'No'
+
+      ]
 
     ],
 

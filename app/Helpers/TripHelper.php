@@ -12,6 +12,136 @@ use DateTime;
 
 class TripHelper {
 
+  public function createAccommodation($request, $container) {
+
+    $error_name = null;
+    $error_period = null;
+    $error_reference = null;
+    $error_price = null;
+    $error_meals = null;
+    $error_cancelable = null;
+    $error_cancelbefore = null;
+    $error_general = null;
+
+    $name = $request->getParam('name');
+    $period = $request->getParam('period');
+    $reference = $request->getParam('reference');
+    $price = $request->getParam('price');
+    $meals = $request->getParam('meals');
+    $cancelable = $request->getParam('cancelable');
+    $cancelbefore = $request->getParam('cancelbefore');
+
+    $trip = $this->getTrip($request->getParam('identifier'));
+
+    if ($trip) {
+
+      if (!empty(trim($name)) && !empty($period) && !empty($price) && !empty($meals) && !empty($cancelable)) {
+
+        if (strlen(trim($name)) <= 50) {
+
+          $period_split = explode(' - ', $period);
+          if (count($period_split) == 2){
+
+            $start_split = explode('/', $period_split[0]);
+            if (count($start_split) == 3) {
+
+              if (checkdate($start_split[1], $start_split[0], $start_split[2])) {
+
+                $stop_split = explode('/', $period_split[1]);
+                if (count($stop_split) == 3) {
+
+                  if (checkdate($stop_split[1], $stop_split[0], $stop_split[2])) {
+
+                    //if (new DateTime())
+
+                  } else {
+                    $error_period = $container->translator->trans('auth.validation.invalidDate');
+                  }
+
+                } else {
+                  $error_period = $container->translator->trans('auth.validation.invalidDate');
+                }
+
+              } else {
+                $error_period = $container->translator->trans('auth.validation.invalidDate');
+              }
+
+            } else {
+              $error_period = $container->translator->trans('auth.validation.invalidDate');
+            }
+
+          } else {
+            $error_period = $container->translator->trans('auth.validation.invalidDate');
+          }
+
+        } else {
+          $error_name = $container->translator->trans('auth.validation.maxChar', [ '%number%' => '50' ]);
+        }
+
+      } else {
+
+        if (empty($name)) {
+          $error_name = $container->translator->trans('auth.validation.required');
+        }
+
+        if (empty($period)) {
+          $error_period = $container->translator->trans('auth.validation.required');
+        }
+
+        if (empty($price)) {
+          $error_price = $container->translator->trans('auth.validation.required');
+        }
+
+        if (empty($meals)) {
+          $error_meals = $container->translator->trans('auth.validation.required');
+        }
+
+        if (empty($cancelable)) {
+          $error_name = $container->translator->trans('auth.validation.required');
+        }
+
+      }
+
+    } else {
+      $error_general = $container->translator->trans('trips.error.notFound');
+    }
+
+    if ($error_name) {
+      $container->flash->addMessage('error_name', $error_name);
+    }
+
+    if ($error_period) {
+      $container->flash->addMessage('error_period', $error_period);
+    }
+
+    if ($error_reference) {
+      $container->flash->addMessage('error_reference', $error_reference);
+    }
+
+    if ($error_price) {
+      $container->flash->addMessage('error_price', $error_price);
+    }
+
+    if ($error_meals) {
+      $container->flash->addMessage('error_meals', $error_meals);
+    }
+
+    if ($error_cancelable) {
+      $container->flash->addMessage('error_cancelable', $error_cancelable);
+    }
+
+    if ($error_cancelbefore) {
+      $container->flash->addMessage('error_cancelbefore', $error_cancelbefore);
+    }
+
+    if ($error_general) {
+      $container->flash->addMessage('error', $error_general);
+    }
+
+    return false;
+
+  }
+
   public function getAccommodation($accommodation, $trip, $container) {
 
     $accommodation_id = (int) $accommodation / 55;
@@ -19,7 +149,6 @@ class TripHelper {
 
     if ($accommodation_obj) {
       $accommodation_obj->identifier = ( (int) $accommodation_obj->id * 55 );
-      $accommodation_obj->period = date('d/m/Y', strtotime($accommodation_obj->checkin)).' - '.date('d/m/Y', strtotime($accommodation_obj->checkout));
       return $accommodation_obj;
     } else {
       return null;

@@ -14,7 +14,10 @@ class Accommodation extends Model {
         'checkin',
         'checkout',
         'reference',
-        'price'
+        'price',
+        'meals',
+        'cancelable',
+        'cancelbefore'
     ];
 
 }

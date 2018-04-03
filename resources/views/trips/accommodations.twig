@@ -28,7 +28,7 @@
           {% for accommodation in accommodations %}
             <tr>
               <td class="align-middle pl-3">{{ accommodation.name }}</td>
-              <td class="align-middle">{{ accommodation.period }}</td>
+              <td class="align-middle">{{ accommodation.checkin | date('d/m/Y') }} - {{ accommodation.checkout | date('d/m/Y') }}</td>
               <td class="text-right pr-3 py-2">
                 <a class="btn btn-secondary btn-sm" href="{{ path_for('trips.accommodations.details', { id: trip.identifier, accommodation: accommodation.identifier }) }}">{{ trans('trips.accommodations.details') }}</a>
               </td>

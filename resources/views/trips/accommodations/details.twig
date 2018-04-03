@@ -17,13 +17,15 @@
 
     <div class="form-group">
       <label>{{ trans('trips.accommodations.dates') }}</label>
-      <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.period }}">
+      <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.checkin | date('d/m/Y') }} - {{ accommodation.checkout | date('d/m/Y') }}">
     </div>
 
+    {% if accommodation.reference %}
     <div class="form-group">
       <label>{{ trans('trips.accommodations.reference') }}</label>
       <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.reference }}">
     </div>
+    {% endif %}
 
     <div class="form-group">
       <label>{{ trans('trips.accommodations.price') }}</label>
@@ -31,9 +33,26 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroupPrepend3">{{ trip.currencyCode }}</span>
         </div>
-        <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.price|number_format(2, '.', '') }}">
+        <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.price | number_format(2, '.', '') }}">
       </div>
     </div>
+
+    <div class="form-group">
+      <label>{{ trans('trips.accommodations.meals') }}</label>
+      <input type="text" class="form-control f-no-border" readonly value="{{ trans('trips.accommodations.mealOptions.' ~ accommodation.meals) }}">
+    </div>
+
+    <div class="form-group">
+      <label>{{ trans('trips.accommodations.cancelable') }}</label>
+      <input type="text" class="form-control f-no-border" readonly value="{{ trans('trips.accommodations.cancelOptions.' ~ accommodation.cancelable) }}">
+    </div>
+
+    {% if accommodation.cancelable == 'true' %}
+    <div class="form-group">
+      <label>{{ trans('trips.accommodations.cancelbefore') }}</label>
+      <input type="text" class="form-control f-no-border" readonly value="{{ accommodation.cancelbefore | date('d/m/Y') }}">
+    </div>
+    {% endif %}
 
     <div class="text-center mt-5">
       <a class="btn btn-secondary" href="{{ path_for('trips.travelers.edit', { id: trip.identifier, traveler: traveler.identifier }) }}">{{ trans('trips.travelers.edit') }}</a>

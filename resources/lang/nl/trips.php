@@ -133,7 +133,28 @@ return [
       'namePlace' => 'Accommodatienaam',
       'periodPlace' => 'dd/mm/jjjj - dd/mm/jjjj',
       'referencePlace' => 'Boeking referentie (optioneel)',
-      'pricePlace' => 'Prijs van de boeking'
+      'pricePlace' => 'Prijs van de boeking',
+      'meals' => 'Maaltijden',
+      'cancelable' => 'Gratis annuleerbaar',
+      'cancelbefore' => 'Gratis annuleren voor',
+      'cancelbeforePlace' => 'dd/mm/jjjj',
+
+      'mealOptions' => [
+
+        '1' => 'Geen maaltijden inbegrepen',
+        '2' => 'Ontbijt',
+        '3' => 'Halfpension',
+        '4' => 'Volpension',
+        '5' => 'All inclusive'
+
+      ],
+
+      'cancelOptions' => [
+
+        'true' => 'Ja',
+        'false' => 'Nee'
+
+      ]
 
     ],
 

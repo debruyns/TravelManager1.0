@@ -99,6 +99,64 @@
 
         $('.date-format').dateRangePicker(configObject);
 
+        // Date Range Selector
+        var configObjectSingle = {
+          autoClose: false,
+        	format: 'DD/MM/YYYY',
+        	separator: ' - ',
+        	language: '{{ language.code }}',
+        	startOfWeek: 'monday',
+        	getValue: function()
+        	{
+        		return $(this).val();
+        	},
+        	setValue: function(s)
+        	{
+        		if(!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val())
+        		{
+        			$(this).val(s);
+        		}
+        	},
+        	startDate: '{{ system.date }}',
+        	endDate: false,
+        	time: {
+        		enabled: false
+        	},
+        	minDays: 0,
+        	maxDays: 1,
+        	showShortcuts: false,
+        	customShortcuts : [],
+        	inline:false,
+        	container:'body',
+        	alwaysOpen:false,
+        	singleDate:true,
+        	lookBehind: false,
+        	batchMode: false,
+        	duration: 200,
+        	stickyMonths: true,
+        	dayDivAttrs: [],
+        	dayTdAttrs: [],
+        	applyBtnClass: '',
+        	singleMonth: true,
+        	hoveringTooltip: function(days, startTime, hoveringTime)
+        	{
+        		return days > 1 ? days + ' ' + lang('days') : '';
+        	},
+        	showTopbar: true,
+        	swapTime: false,
+        	selectForward: true,
+        	selectBackward: false,
+        	showWeekNumbers: false,
+        	getWeekNumber: function(date) //date will be the first day of a week
+        	{
+        		return moment(date).format('w');
+        	},
+        	monthSelect: false,
+        	yearSelect: false
+        };
+
+        $('.date-format-single').dateRangePicker(configObjectSingle);
+
       </script>
 
       {% block scripts %}{% endblock %}

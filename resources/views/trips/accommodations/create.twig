@@ -30,7 +30,7 @@
 
       <div class="form-group">
         <label for="reference">{{ trans('trips.accommodations.reference') }}</label>
-        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_reference') ? ' is-invalid' : '' }}" name="name" maxlength="50" placeholder="{{ trans('trips.accommodations.referencePlace') }}" value="{{ persistInput.reference }}">
+        <input type="text" class="form-control f-no-border {{ flash.getMessage('error_reference') ? ' is-invalid' : '' }}" name="reference" maxlength="50" placeholder="{{ trans('trips.accommodations.referencePlace') }}" value="{{ persistInput.reference }}">
         {% if flash.getMessage('error_reference') %}
           <small class="text-danger">{{ flash.getMessage('error_reference') | first }}</small>
         {% endif %}
@@ -42,11 +42,44 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupPrepend3">{{ trip.currencyCode }}</span>
           </div>
-          <input type="text" class="form-control f-no-border {{ flash.getMessage('error_price') ? ' is-invalid' : '' }}" name="name" maxlength="8" placeholder="{{ trans('trips.accommodations.pricePlace') }}" value="{{ persistInput.price ? persistInput.price : '0.00' }}">
+          <input type="text" class="form-control f-no-border {{ flash.getMessage('error_price') ? ' is-invalid' : '' }}" name="price" maxlength="8" placeholder="{{ trans('trips.accommodations.pricePlace') }}" value="{{ persistInput.price ? persistInput.price : '0.00' }}">
           {% if flash.getMessage('error_price') %}
             <small class="text-danger">{{ flash.getMessage('error_price') | first }}</small>
           {% endif %}
         </div>
+      </div>
+
+      <div class="form-group">
+        <label for="meals">{{ trans('trips.accommodations.meals') }}</label>
+        <select name="meals" class="form-control f-no-border">
+          <option value="1" {{ persistInput.meals == '1' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.mealOptions.1') }}</option>
+          <option value="2" {{ persistInput.meals == '2' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.mealOptions.2') }}</option>
+          <option value="3" {{ persistInput.meals == '3' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.mealOptions.3') }}</option>
+          <option value="4" {{ persistInput.meals == '4' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.mealOptions.4') }}</option>
+          <option value="5" {{ persistInput.meals == '5' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.mealOptions.5') }}</option>
+        </select>
+        {% if flash.getMessage('error_meals') %}
+          <small class="text-danger">{{ flash.getMessage('error_meals') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="cancelable">{{ trans('trips.accommodations.cancelable') }}</label>
+        <select name="cancelable" class="form-control f-no-border">
+          <option value="true" {{ persistInput.cancelable == 'true' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.cancelOptions.true') }}</option>
+          <option value="false" {{ persistInput.cancelable == 'false' ? 'selected="selected"' : '' }}>{{ trans('trips.accommodations.cancelOptions.false') }}</option>
+        </select>
+        {% if flash.getMessage('error_cancelable') %}
+          <small class="text-danger">{{ flash.getMessage('error_cancelable') | first }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="cancelbefore">{{ trans('trips.accommodations.cancelbefore') }}</label>
+        <input type="text" class="form-control f-no-border date-format-single {{ flash.getMessage('error_cancelbefore') ? ' is-invalid' : '' }}" name="cancelbefore" maxlength="10" placeholder="{{ trans('trips.accommodations.cancelbeforePlace') }}" value="{{ persistInput.cancelbefore }}">
+        {% if flash.getMessage('error_cancelbefore') %}
+          <small class="text-danger">{{ flash.getMessage('error_cancelbefore') | first }}</small>
+        {% endif %}
       </div>
 
       <div class="text-center mt-5">
